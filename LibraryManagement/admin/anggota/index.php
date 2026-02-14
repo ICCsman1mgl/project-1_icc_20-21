@@ -60,13 +60,16 @@ $anggotaList = $anggotaStmt->fetchAll();
             <a class="nav-link text-white-50" href="../laporan/index.php">
                 <i class="bi bi-file-earmark-text"></i> Laporan
             </a>
+            <a class="nav-link" href="/admin/anggota/import.php">
+                <i class="fas fa-file-import">Import Anggota</i>
+            </a>
         </nav>
     </div>
 
     <!-- Main Content -->
     <div class="flex-grow-1">
         <?php include '../../includes/navbar.php'; ?>
-        
+
         <div class="container-fluid p-4">
             <!-- Header -->
             <div class="row mb-4">
@@ -174,9 +177,9 @@ $anggotaList = $anggotaStmt->fetchAll();
                         <div class="col-md-6">
                             <div class="search-box">
                                 <i class="bi bi-search search-icon"></i>
-                                <input type="text" class="form-control" name="search" 
-                                       placeholder="Cari nama, username, atau email..." 
-                                       value="<?= htmlspecialchars($search) ?>">
+                                <input type="text" class="form-control" name="search"
+                                    placeholder="Cari nama, username, atau email..."
+                                    value="<?= htmlspecialchars($search) ?>">
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -195,7 +198,8 @@ $anggotaList = $anggotaStmt->fetchAll();
             <?php if (isset($_SESSION['success'])): ?>
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     <i class="bi bi-check-circle me-2"></i>
-                    <?= $_SESSION['success']; unset($_SESSION['success']); ?>
+                    <?= $_SESSION['success'];
+                    unset($_SESSION['success']); ?>
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             <?php endif; ?>
@@ -203,7 +207,8 @@ $anggotaList = $anggotaStmt->fetchAll();
             <?php if (isset($_SESSION['error'])): ?>
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <i class="bi bi-exclamation-triangle me-2"></i>
-                    <?= $_SESSION['error']; unset($_SESSION['error']); ?>
+                    <?= $_SESSION['error'];
+                    unset($_SESSION['error']); ?>
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             <?php endif; ?>
@@ -244,9 +249,9 @@ $anggotaList = $anggotaStmt->fetchAll();
                                         <tr>
                                             <td>
                                                 <?php if ($anggota['foto']): ?>
-                                                    <img src="/LibraryManagement/proses/uploads/<?= htmlspecialchars($anggota['foto']) ?>" 
-                                                         alt="Foto <?= htmlspecialchars($anggota['nama_lengkap']) ?>" 
-                                                         class="profile-photo">
+                                                    <img src="/LibraryManagement/proses/uploads/<?= htmlspecialchars($anggota['foto']) ?>"
+                                                        alt="Foto <?= htmlspecialchars($anggota['nama_lengkap']) ?>"
+                                                        class="profile-photo">
                                                 <?php else: ?>
                                                     <div class="profile-photo bg-light d-flex align-items-center justify-content-center">
                                                         <i class="bi bi-person text-muted"></i>
@@ -294,15 +299,15 @@ $anggotaList = $anggotaStmt->fetchAll();
                                             </td>
                                             <td>
                                                 <div class="btn-group btn-group-sm" role="group">
-                                                    <a href="edit.php?id=<?= $anggota['id'] ?>" 
-                                                       class="btn btn-outline-primary" 
-                                                       data-bs-toggle="tooltip" title="Edit">
+                                                    <a href="edit.php?id=<?= $anggota['id'] ?>"
+                                                        class="btn btn-outline-primary"
+                                                        data-bs-toggle="tooltip" title="Edit">
                                                         <i class="bi bi-pencil"></i>
                                                     </a>
-                                                    <a href="hapus.php?id=<?= $anggota['id'] ?>" 
-                                                       class="btn btn-outline-danger btn-delete" 
-                                                       data-name="<?= htmlspecialchars($anggota['nama_lengkap']) ?>"
-                                                       data-bs-toggle="tooltip" title="Hapus">
+                                                    <a href="hapus.php?id=<?= $anggota['id'] ?>"
+                                                        class="btn btn-outline-danger btn-delete"
+                                                        data-name="<?= htmlspecialchars($anggota['nama_lengkap']) ?>"
+                                                        data-bs-toggle="tooltip" title="Hapus">
                                                         <i class="bi bi-trash"></i>
                                                     </a>
                                                 </div>
@@ -324,7 +329,7 @@ $anggotaList = $anggotaStmt->fetchAll();
                                             </a>
                                         </li>
                                     <?php endif; ?>
-                                    
+
                                     <?php for ($i = max(1, $page - 2); $i <= min($totalPages, $page + 2); $i++): ?>
                                         <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
                                             <a class="page-link" href="?page=<?= $i ?><?= $search ? '&search=' . urlencode($search) : '' ?>">
@@ -332,7 +337,7 @@ $anggotaList = $anggotaStmt->fetchAll();
                                             </a>
                                         </li>
                                     <?php endfor; ?>
-                                    
+
                                     <?php if ($page < $totalPages): ?>
                                         <li class="page-item">
                                             <a class="page-link" href="?page=<?= $page + 1 ?><?= $search ? '&search=' . urlencode($search) : '' ?>">

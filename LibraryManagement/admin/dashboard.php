@@ -85,13 +85,16 @@ $bukuPopuler = $pdo->query("
             <a class="nav-link text-white-50" href="laporan/index.php">
                 <i class="bi bi-file-earmark-text"></i> Laporan
             </a>
+            <a class="nav-link" href="/LibraryManagement/admin/anggota/import.php">
+                <i class="fas fa-file-import"></i> Import Anggota
+            </a>
         </nav>
     </div>
 
     <!-- Main Content -->
     <div class="flex-grow-1">
         <?php include '../includes/navbar.php'; ?>
-        
+
         <div class="container-fluid p-4">
             <!-- Welcome Header -->
             <div class="row mb-4">
@@ -179,35 +182,35 @@ $bukuPopuler = $pdo->query("
 
             <!-- Alert Cards -->
             <?php if ($bukuJatuhTempo > 0 || $bukuTerlambat > 0): ?>
-            <div class="row mb-4">
-                <?php if ($bukuJatuhTempo > 0): ?>
-                <div class="col-md-6">
-                    <div class="alert alert-warning" role="alert">
-                        <h6 class="alert-heading">
-                            <i class="bi bi-exclamation-triangle me-2"></i>
-                            Perhatian!
-                        </h6>
-                        <p class="mb-0">
-                            Ada <strong><?= $bukuJatuhTempo ?></strong> buku yang akan jatuh tempo dalam 3 hari ke depan.
-                        </p>
-                    </div>
+                <div class="row mb-4">
+                    <?php if ($bukuJatuhTempo > 0): ?>
+                        <div class="col-md-6">
+                            <div class="alert alert-warning" role="alert">
+                                <h6 class="alert-heading">
+                                    <i class="bi bi-exclamation-triangle me-2"></i>
+                                    Perhatian!
+                                </h6>
+                                <p class="mb-0">
+                                    Ada <strong><?= $bukuJatuhTempo ?></strong> buku yang akan jatuh tempo dalam 3 hari ke depan.
+                                </p>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if ($bukuTerlambat > 0): ?>
+                        <div class="col-md-6">
+                            <div class="alert alert-danger" role="alert">
+                                <h6 class="alert-heading">
+                                    <i class="bi bi-exclamation-circle me-2"></i>
+                                    Terlambat!
+                                </h6>
+                                <p class="mb-0">
+                                    Ada <strong><?= $bukuTerlambat ?></strong> buku yang sudah terlambat dikembalikan.
+                                </p>
+                            </div>
+                        </div>
+                    <?php endif; ?>
                 </div>
-                <?php endif; ?>
-                
-                <?php if ($bukuTerlambat > 0): ?>
-                <div class="col-md-6">
-                    <div class="alert alert-danger" role="alert">
-                        <h6 class="alert-heading">
-                            <i class="bi bi-exclamation-circle me-2"></i>
-                            Terlambat!
-                        </h6>
-                        <p class="mb-0">
-                            Ada <strong><?= $bukuTerlambat ?></strong> buku yang sudah terlambat dikembalikan.
-                        </p>
-                    </div>
-                </div>
-                <?php endif; ?>
-            </div>
             <?php endif; ?>
 
             <!-- Charts and Recent Activities -->
@@ -226,7 +229,7 @@ $bukuPopuler = $pdo->query("
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Quick Actions -->
                 <div class="col-md-4">
                     <div class="card">
@@ -293,55 +296,55 @@ $bukuPopuler = $pdo->query("
                                         </thead>
                                         <tbody>
                                             <?php foreach ($transaksiTerbaru as $transaksi): ?>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="me-2">
-                                                            <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
+                                                <tr>
+                                                    <td>
+                                                        <div class="d-flex align-items-center">
+                                                            <div class="me-2">
+                                                                <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
+                                                            </div>
+                                                            <div>
+                                                                <strong><?= htmlspecialchars($transaksi['nama_lengkap']) ?></strong>
+                                                            </div>
                                                         </div>
-                                                        <div>
-                                                            <strong><?= htmlspecialchars($transaksi['nama_lengkap']) ?></strong>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex align-items-center">
+                                                            <?php if (!empty($transaksi['cover'])): ?>
+                                                                <img src="/LibraryManagement/proses/uploads/<?= htmlspecialchars($transaksi['cover']) ?>"
+                                                                    class="book-cover me-2" alt="<?= htmlspecialchars($transaksi['judul']) ?>">
+                                                            <?php else: ?>
+                                                                <div class="book-cover me-2 bg-light d-flex align-items-center justify-content-center">
+                                                                    <i class="bi bi-book text-muted"></i>
+                                                                </div>
+                                                            <?php endif; ?>
+
+                                                            <div>
+                                                                <small class="fw-bold"><?= htmlspecialchars($transaksi['judul']) ?></small>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </td>
-                                               <td>
-    <div class="d-flex align-items-center">
-        <?php if (!empty($transaksi['cover'])): ?>
-            <img src="/LibraryManagement/proses/uploads/<?= htmlspecialchars($transaksi['cover']) ?>"
-                 class="book-cover me-2" alt="<?= htmlspecialchars($transaksi['judul']) ?>">
-        <?php else: ?>
-            <div class="book-cover me-2 bg-light d-flex align-items-center justify-content-center">
-                <i class="bi bi-book text-muted"></i>
-            </div>
-        <?php endif; ?>
+                                                    </td>
 
-        <div>
-            <small class="fw-bold"><?= htmlspecialchars($transaksi['judul']) ?></small>
-        </div>
-    </div>
-</td>
-
-                                                <td>
-                                                    <small><?= date('d/m/Y', strtotime($transaksi['created_at'])) ?></small>
-                                                </td>
-                                                <td>
-                                                    <?php
-                                                    $badgeClass = '';
-                                                    switch ($transaksi['status']) {
-                                                        case 'dipinjam':
-                                                            $badgeClass = 'bg-warning';
-                                                            break;
-                                                        case 'dikembalikan':
-                                                            $badgeClass = 'bg-success';
-                                                            break;
-                                                        case 'terlambat':
-                                                            $badgeClass = 'bg-danger';
-                                                            break;
-                                                    }
-                                                    ?>
-                                                    <span class="badge <?= $badgeClass ?>"><?= ucfirst($transaksi['status']) ?></span>
-                                                </td>
-                                            </tr>
+                                                    <td>
+                                                        <small><?= date('d/m/Y', strtotime($transaksi['created_at'])) ?></small>
+                                                    </td>
+                                                    <td>
+                                                        <?php
+                                                        $badgeClass = '';
+                                                        switch ($transaksi['status']) {
+                                                            case 'dipinjam':
+                                                                $badgeClass = 'bg-warning';
+                                                                break;
+                                                            case 'dikembalikan':
+                                                                $badgeClass = 'bg-success';
+                                                                break;
+                                                            case 'terlambat':
+                                                                $badgeClass = 'bg-danger';
+                                                                break;
+                                                        }
+                                                        ?>
+                                                        <span class="badge <?= $badgeClass ?>"><?= ucfirst($transaksi['status']) ?></span>
+                                                    </td>
+                                                </tr>
                                             <?php endforeach; ?>
                                         </tbody>
                                     </table>
@@ -368,34 +371,34 @@ $bukuPopuler = $pdo->query("
                                 </div>
                             <?php else: ?>
                                 <?php foreach ($bukuPopuler as $index => $buku): ?>
-                                <div class="d-flex align-items-center mb-3">
-                                    <div class="me-3">
-                                        <span class="badge bg-primary fs-6"><?= $index + 1 ?></span>
-                                    </div>
-                                    <div class="me-3">
-                                        <?php if ($buku['cover']): ?>
-                  <img src="/LibraryManagement/proses/uploads/<?= htmlspecialchars($buku['cover']) ?>"
-     alt="<?= htmlspecialchars($buku['judul']) ?>">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="me-3">
+                                            <span class="badge bg-primary fs-6"><?= $index + 1 ?></span>
+                                        </div>
+                                        <div class="me-3">
+                                            <?php if ($buku['cover']): ?>
+                                                <img src="/LibraryManagement/proses/uploads/<?= htmlspecialchars($buku['cover']) ?>"
+                                                    alt="<?= htmlspecialchars($buku['judul']) ?>">
 
-                                        <?php else: ?>
-                                            <div class="book-cover bg-light d-flex align-items-center justify-content-center">
-                                                <i class="bi bi-book text-muted"></i>
-                                            </div>
-                                        <?php endif; ?>
+                                            <?php else: ?>
+                                                <div class="book-cover bg-light d-flex align-items-center justify-content-center">
+                                                    <i class="bi bi-book text-muted"></i>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-1"><?= htmlspecialchars($buku['judul']) ?></h6>
+                                            <small class="text-muted"><?= htmlspecialchars($buku['pengarang']) ?></small>
+                                            <br>
+                                            <small class="text-primary">
+                                                <i class="bi bi-graph-up me-1"></i>
+                                                <?= $buku['total_dipinjam'] ?> kali dipinjam
+                                            </small>
+                                        </div>
                                     </div>
-                                    <div class="flex-grow-1">
-                                        <h6 class="mb-1"><?= htmlspecialchars($buku['judul']) ?></h6>
-                                        <small class="text-muted"><?= htmlspecialchars($buku['pengarang']) ?></small>
-                                        <br>
-                                        <small class="text-primary">
-                                            <i class="bi bi-graph-up me-1"></i>
-                                            <?= $buku['total_dipinjam'] ?> kali dipinjam
-                                        </small>
-                                    </div>
-                                </div>
-                                <?php if ($index < count($bukuPopuler) - 1): ?>
-                                    <hr class="my-2">
-                                <?php endif; ?>
+                                    <?php if ($index < count($bukuPopuler) - 1): ?>
+                                        <hr class="my-2">
+                                    <?php endif; ?>
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         </div>
@@ -407,49 +410,52 @@ $bukuPopuler = $pdo->query("
 </div>
 
 <script>
-// Chart configuration
-document.addEventListener('DOMContentLoaded', function() {
-    const ctx = document.getElementById('transactionChart').getContext('2d');
-    
-    const chartData = <?= json_encode($chartData) ?>;
-    const labels = chartData.map(item => {
-        const date = new Date(item.tanggal);
-        return date.toLocaleDateString('id-ID', { day: '2-digit', month: 'short' });
-    });
-    const data = chartData.map(item => item.jumlah);
-    
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Jumlah Transaksi',
-                data: data,
-                borderColor: 'rgb(13, 110, 253)',
-                backgroundColor: 'rgba(13, 110, 253, 0.1)',
-                tension: 0.4,
-                fill: true
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        stepSize: 1
+    // Chart configuration
+    document.addEventListener('DOMContentLoaded', function() {
+        const ctx = document.getElementById('transactionChart').getContext('2d');
+
+        const chartData = <?= json_encode($chartData) ?>;
+        const labels = chartData.map(item => {
+            const date = new Date(item.tanggal);
+            return date.toLocaleDateString('id-ID', {
+                day: '2-digit',
+                month: 'short'
+            });
+        });
+        const data = chartData.map(item => item.jumlah);
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Jumlah Transaksi',
+                    data: data,
+                    borderColor: 'rgb(13, 110, 253)',
+                    backgroundColor: 'rgba(13, 110, 253, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
                     }
                 }
-            },
-            plugins: {
-                legend: {
-                    display: false
-                }
             }
-        }
+        });
     });
-});
 </script>
 
 <?php include '../includes/footer.php'; ?>
