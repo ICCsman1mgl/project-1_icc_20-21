@@ -1,6 +1,7 @@
 -- Database Schema untuk Sistem Perpustakaan
-CREATE DATABASE IF NOT EXISTS perpustakaan;
+CREATE DATABASE perpustakaan;
 USE perpustakaan;
+
 
 -- Tabel pengguna (admin dan user)
 CREATE TABLE users (

@@ -88,6 +88,10 @@ $bukuPopuler = $pdo->query("
             <a class="nav-link" href="/LibraryManagement/admin/anggota/import.php">
                 <i class="fas fa-file-import"></i> Import Anggota
             </a>
+            <a class="nav-link text-white-50" href="transaksi/scan_nis.php">
+                <i class="bi bi-qr-code-scan"></i> Scan NIS (QR)
+            </a>
+
         </nav>
     </div>
 

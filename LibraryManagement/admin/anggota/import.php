@@ -8,6 +8,21 @@ require_once __DIR__ . '/../../config/database.php'; // kalau file PDO kamu ada 
 
 // Pastikan $pdo tersedia dari file di atas.
 // Kalau di file kamu nama variabelnya beda, sesuaikan.
+// Fallback: kalau project ternyata pakai MySQLi, bikin PDO khusus untuk import
+if (!isset($pdo) || !($pdo instanceof PDO)) {
+    try {
+        $pdo = new PDO(
+            "mysql:host=localhost;dbname=perpustakaan;charset=utf8mb4",
+            "root",
+            ""
+        );
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+        die("Koneksi PDO gagal: " . $e->getMessage());
+    }
+}
+
 
 function normalizeHeader(string $h): string {
     $h = trim(strtolower($h));
