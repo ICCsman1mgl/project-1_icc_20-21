@@ -220,52 +220,52 @@ Pedoman teknis:
 ```mermaid
 flowchart TB
     %% Start & Landing
-    START((Start))
-    LP([Landing Page / Login (index.php)])
+    START(("Start"))
+    LP["Landing Page / Login (index.php)"]
     click LP href "/index.php" "Buka Landing Page / Login"
 
-    CREDS{Kredensial valid?}
-    ROLE{Role admin?}
-    ERR_LOGIN([Tampilkan error login])
+    CREDS{"Kredensial valid?"}
+    ROLE{"Role admin?"}
+    ERR_LOGIN["Tampilkan error login"]
 
     START --> LP --> CREDS
-    CREDS -- Tidak --> ERR_LOGIN --> LP
-    CREDS -- Ya --> ROLE
+    CREDS -- "Tidak" --> ERR_LOGIN --> LP
+    CREDS -- "Ya" --> ROLE
 
     %% Admin / User fork
-    AD([Dashboard Admin])
+    AD["Dashboard Admin"]
     click AD href "/admin/dashboard.php" "Buka Dashboard Admin"
 
-    UD([Dashboard User])
+    UD["Dashboard User"]
     click UD href "/user/dashboard.php" "Buka Dashboard User"
 
-    ROLE -- Admin --> AD
-    ROLE -- User --> UD
+    ROLE -- "Admin" --> AD
+    ROLE -- "User" --> UD
 
     %% Admin Navigation
-    subgraph Admin Pages
-        A_Buku_List([Daftar Buku])
+    subgraph "Admin Pages"
+        A_Buku_List["Daftar Buku"]
         click A_Buku_List href "/admin/buku/Daftar_Buku.php" "Kelola daftar buku"
 
-        A_Buku_Add([Tambah Buku])
+        A_Buku_Add["Tambah Buku"]
         click A_Buku_Add href "/admin/buku/tambah.php" "Tambah buku baru"
 
-        A_Buku_Edit([Edit Buku])
+        A_Buku_Edit["Edit Buku"]
         click A_Buku_Edit href "/admin/buku/edit.php?id=ID" "Edit buku (contoh)"
 
-        A_Anggota_List([Kelola Anggota])
+        A_Anggota_List["Kelola Anggota"]
         click A_Anggota_List href "/admin/anggota/index.php" "Kelola data anggota"
 
-        A_Import([Import Anggota CSV])
+        A_Import["Import Anggota CSV"]
         click A_Import href "/admin/anggota/import.php" "Import anggota dari CSV"
 
-        A_Scan_NIS([Scan NIS (QR)])
+        A_Scan_NIS["Scan NIS (QR)"]
         click A_Scan_NIS href "/admin/transaksi/scan_nis.php" "Scan QR NIS"
 
-        A_Trans_List([Riwayat Transaksi])
+        A_Trans_List["Riwayat Transaksi"]
         click A_Trans_List href "/admin/transaksi/index.php" "Lihat riwayat transaksi"
 
-        A_Laporan([Laporan])
+        A_Laporan["Laporan"]
         click A_Laporan href "/admin/laporan/index.php" "Laporan dan statistik"
     end
 
@@ -279,58 +279,58 @@ flowchart TB
     AD --> A_Laporan
 
     %% Admin - Peminjaman
-    A_Pinjam([Transaksi Peminjaman])
+    A_Pinjam["Transaksi Peminjaman"]
     click A_Pinjam href "/admin/transaksi/pinjam.php" "Form peminjaman"
 
     AD --> A_Pinjam
 
-    P_USER_ACTIVE{Anggota aktif?}
-    P_LIMIT{Sudah pinjam >= 3?}
-    P_ALREADY{Sudah pinjam buku ini?}
-    P_STOCK{Stok tersedia?}
-    P_DATE_OK{Tanggal valid & <= 14 hari?}
-    P_ERR([Tolak: aturan dilanggar])
-    P_OK([Transaksi dibuat • stok -1])
+    P_USER_ACTIVE{"Anggota aktif?"}
+    P_LIMIT{"Sudah pinjam >= 3?"}
+    P_ALREADY{"Sudah pinjam buku ini?"}
+    P_STOCK{"Stok tersedia?"}
+    P_DATE_OK{"Tanggal valid & <= 14 hari?"}
+    P_ERR["Tolak: aturan dilanggar"]
+    P_OK["Transaksi dibuat • stok -1"]
 
     A_Pinjam --> P_USER_ACTIVE
-    P_USER_ACTIVE -- Tidak --> P_ERR --> A_Pinjam
-    P_USER_ACTIVE -- Ya --> P_LIMIT
-    P_LIMIT -- Ya --> P_ERR
-    P_LIMIT -- Tidak --> P_ALREADY
-    P_ALREADY -- Ya --> P_ERR
-    P_ALREADY -- Tidak --> P_STOCK
-    P_STOCK -- Tidak --> P_ERR
-    P_STOCK -- Ya --> P_DATE_OK
-    P_DATE_OK -- Tidak --> P_ERR
-    P_DATE_OK -- Ya --> P_OK
+    P_USER_ACTIVE -- "Tidak" --> P_ERR --> A_Pinjam
+    P_USER_ACTIVE -- "Ya" --> P_LIMIT
+    P_LIMIT -- "Ya" --> P_ERR
+    P_LIMIT -- "Tidak" --> P_ALREADY
+    P_ALREADY -- "Ya" --> P_ERR
+    P_ALREADY -- "Tidak" --> P_STOCK
+    P_STOCK -- "Tidak" --> P_ERR
+    P_STOCK -- "Ya" --> P_DATE_OK
+    P_DATE_OK -- "Tidak" --> P_ERR
+    P_DATE_OK -- "Ya" --> P_OK
 
     %% Admin - Pengembalian
-    A_Return([Transaksi Pengembalian])
+    A_Return["Transaksi Pengembalian"]
     click A_Return href "/admin/transaksi/kembali.php" "Form pengembalian"
 
     AD --> A_Return
 
-    R_DATE_VALID{Tanggal kembali ≥ tanggal pinjam?}
-    R_FINE([Hitung denda otomatis 1000/hari])
-    R_DONE([Status dikembalikan • stok +1])
-    R_ERR([Tolak: tanggal tidak valid])
+    R_DATE_VALID{"Tanggal kembali ≥ tanggal pinjam?"}
+    R_FINE["Hitung denda otomatis 1000/hari"]
+    R_DONE["Status dikembalikan • stok +1"]
+    R_ERR["Tolak: tanggal tidak valid"]
 
     A_Return --> R_DATE_VALID
-    R_DATE_VALID -- Tidak --> R_ERR --> A_Return
-    R_DATE_VALID -- Ya --> R_FINE --> R_DONE
+    R_DATE_VALID -- "Tidak" --> R_ERR --> A_Return
+    R_DATE_VALID -- "Ya" --> R_FINE --> R_DONE
 
     %% User Navigation
-    subgraph User Pages
-        U_Katalog([Katalog Buku])
+    subgraph "User Pages"
+        U_Katalog["Katalog Buku"]
         click U_Katalog href "/user/katalog.php" "Cari dan lihat buku"
 
-        U_Pinjam([Pinjam (User)])
+        U_Pinjam["Pinjam (User)"]
         click U_Pinjam href "/user/pinjam.php?buku_id=ID" "Form pinjam user"
 
-        U_Riwayat([Riwayat Pinjam])
+        U_Riwayat["Riwayat Pinjam"]
         click U_Riwayat href "/user/riwayat.php" "Lihat riwayat"
 
-        U_Profil([Profil Saya])
+        U_Profil["Profil Saya"]
         click U_Profil href "/user/profile.php" "Update profil"
     end
 
@@ -340,43 +340,43 @@ flowchart TB
 
     %% User - Peminjaman dari Katalog
     U_Katalog --> U_Pinjam
-    U_LIMIT{Sedang pinjam >= 3?}
-    U_ALREADY{Sudah pinjam buku ini?}
-    U_STOCK{Stok tersedia?}
-    U_DATE_OK{Tanggal valid & <= 14 hari?}
-    U_ERR([Tolak: aturan dilanggar])
-    U_OK([Transaksi dibuat • stok -1])
+    U_LIMIT{"Sedang pinjam >= 3?"}
+    U_ALREADY{"Sudah pinjam buku ini?"}
+    U_STOCK{"Stok tersedia?"}
+    U_DATE_OK{"Tanggal valid & <= 14 hari?"}
+    U_ERR["Tolak: aturan dilanggar"]
+    U_OK["Transaksi dibuat • stok -1"]
 
     U_Pinjam --> U_LIMIT
-    U_LIMIT -- Ya --> U_ERR --> U_Pinjam
-    U_LIMIT -- Tidak --> U_ALREADY
-    U_ALREADY -- Ya --> U_ERR
-    U_ALREADY -- Tidak --> U_STOCK
-    U_STOCK -- Tidak --> U_ERR
-    U_STOCK -- Ya --> U_DATE_OK
-    U_DATE_OK -- Tidak --> U_ERR
-    U_DATE_OK -- Ya --> U_OK --> U_Riwayat
+    U_LIMIT -- "Ya" --> U_ERR --> U_Pinjam
+    U_LIMIT -- "Tidak" --> U_ALREADY
+    U_ALREADY -- "Ya" --> U_ERR
+    U_ALREADY -- "Tidak" --> U_STOCK
+    U_STOCK -- "Tidak" --> U_ERR
+    U_STOCK -- "Ya" --> U_DATE_OK
+    U_DATE_OK -- "Tidak" --> U_ERR
+    U_DATE_OK -- "Ya" --> U_OK --> U_Riwayat
 
     %% User - Update Profil
-    PROF_UPDATE([Update profil & foto])
+    PROF_UPDATE["Update profil & foto"]
     UD --> U_Profil --> PROF_UPDATE --> U_Profil
 
     %% Notifikasi Jatuh Tempo (Navbar)
-    NOTIF([Notifikasi Jatuh Tempo])
+    NOTIF["Notifikasi Jatuh Tempo"]
     AD --> NOTIF
     UD --> NOTIF
 
     %% End Goals (Konversi)
-    GOAL_PINJAM(((Konversi: Peminjaman Berhasil)))
-    GOAL_KEMBALI(((Konversi: Pengembalian Berhasil)))
-    GOAL_PROFIL(((Konversi: Profil Diperbarui)))
+    GOAL_PINJAM((("Konversi: Peminjaman Berhasil")))
+    GOAL_KEMBALI((("Konversi: Pengembalian Berhasil")))
+    GOAL_PROFIL((("Konversi: Profil Diperbarui")))
 
     P_OK --> GOAL_PINJAM
     U_OK --> GOAL_PINJAM
     R_DONE --> GOAL_KEMBALI
     PROF_UPDATE --> GOAL_PROFIL
 
-    END((End))
+    END(("End"))
     GOAL_PINJAM --> END
     GOAL_KEMBALI --> END
     GOAL_PROFIL --> END
