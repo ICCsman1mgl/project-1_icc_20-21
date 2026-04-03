@@ -222,7 +222,7 @@ flowchart TB
     %% Start & Landing
     START((Start))
     LP([Landing Page / Login (index.php)])
-    click LP "/LibraryManagement/index.php" "Buka Landing Page / Login"
+    click LP href "/LibraryManagement/index.php" "Buka Landing Page / Login"
 
     CREDS{Kredensial valid?}
     ROLE{Role admin?}
@@ -234,10 +234,10 @@ flowchart TB
 
     %% Admin / User fork
     AD([Dashboard Admin])
-    click AD "/LibraryManagement/admin/dashboard.php" "Buka Dashboard Admin"
+    click AD href "/LibraryManagement/admin/dashboard.php" "Buka Dashboard Admin"
 
     UD([Dashboard User])
-    click UD "/LibraryManagement/user/dashboard.php" "Buka Dashboard User"
+    click UD href "/LibraryManagement/user/dashboard.php" "Buka Dashboard User"
 
     ROLE -- Admin --> AD
     ROLE -- User --> UD
@@ -245,28 +245,28 @@ flowchart TB
     %% Admin Navigation
     subgraph Admin Pages
         A_Buku_List([Daftar Buku])
-        click A_Buku_List "/LibraryManagement/admin/buku/Daftar_Buku.php" "Kelola daftar buku"
+        click A_Buku_List href "/LibraryManagement/admin/buku/Daftar_Buku.php" "Kelola daftar buku"
 
         A_Buku_Add([Tambah Buku])
-        click A_Buku_Add "/LibraryManagement/admin/buku/tambah.php" "Tambah buku baru"
+        click A_Buku_Add href "/LibraryManagement/admin/buku/tambah.php" "Tambah buku baru"
 
         A_Buku_Edit([Edit Buku])
-        click A_Buku_Edit "/LibraryManagement/admin/buku/edit.php?id=<id>" "Edit buku (contoh)"
+        click A_Buku_Edit href "/LibraryManagement/admin/buku/edit.php?id=ID" "Edit buku (contoh)"
 
         A_Anggota_List([Kelola Anggota])
-        click A_Anggota_List "/LibraryManagement/admin/anggota/index.php" "Kelola data anggota"
+        click A_Anggota_List href "/LibraryManagement/admin/anggota/index.php" "Kelola data anggota"
 
         A_Import([Import Anggota CSV])
-        click A_Import "/LibraryManagement/admin/anggota/import.php" "Import anggota dari CSV"
+        click A_Import href "/LibraryManagement/admin/anggota/import.php" "Import anggota dari CSV"
 
         A_Scan_NIS([Scan NIS (QR)])
-        click A_Scan_NIS "/LibraryManagement/admin/transaksi/scan_nis.php" "Scan QR NIS"
+        click A_Scan_NIS href "/LibraryManagement/admin/transaksi/scan_nis.php" "Scan QR NIS"
 
         A_Trans_List([Riwayat Transaksi])
-        click A_Trans_List "/LibraryManagement/admin/transaksi/index.php" "Lihat riwayat transaksi"
+        click A_Trans_List href "/LibraryManagement/admin/transaksi/index.php" "Lihat riwayat transaksi"
 
         A_Laporan([Laporan])
-        click A_Laporan "/LibraryManagement/admin/laporan/index.php" "Laporan dan statistik"
+        click A_Laporan href "/LibraryManagement/admin/laporan/index.php" "Laporan dan statistik"
     end
 
     AD --> A_Buku_List
@@ -280,7 +280,7 @@ flowchart TB
 
     %% Admin - Peminjaman
     A_Pinjam([Transaksi Peminjaman])
-    click A_Pinjam "/LibraryManagement/admin/transaksi/pinjam.php" "Form peminjaman"
+    click A_Pinjam href "/LibraryManagement/admin/transaksi/pinjam.php" "Form peminjaman"
 
     AD --> A_Pinjam
 
@@ -306,7 +306,7 @@ flowchart TB
 
     %% Admin - Pengembalian
     A_Return([Transaksi Pengembalian])
-    click A_Return "/LibraryManagement/admin/transaksi/kembali.php" "Form pengembalian"
+    click A_Return href "/LibraryManagement/admin/transaksi/kembali.php" "Form pengembalian"
 
     AD --> A_Return
 
@@ -322,16 +322,16 @@ flowchart TB
     %% User Navigation
     subgraph User Pages
         U_Katalog([Katalog Buku])
-        click U_Katalog "/LibraryManagement/user/katalog.php" "Cari dan lihat buku"
+        click U_Katalog href "/LibraryManagement/user/katalog.php" "Cari dan lihat buku"
 
         U_Pinjam([Pinjam (User)])
-        click U_Pinjam "/LibraryManagement/user/pinjam.php?buku_id=<id>" "Form pinjam user"
+        click U_Pinjam href "/LibraryManagement/user/pinjam.php?buku_id=ID" "Form pinjam user"
 
         U_Riwayat([Riwayat Pinjam])
-        click U_Riwayat "/LibraryManagement/user/riwayat.php" "Lihat riwayat"
+        click U_Riwayat href "/LibraryManagement/user/riwayat.php" "Lihat riwayat"
 
         U_Profil([Profil Saya])
-        click U_Profil "/LibraryManagement/user/profile.php" "Update profil"
+        click U_Profil href "/LibraryManagement/user/profile.php" "Update profil"
     end
 
     UD --> U_Katalog
@@ -388,23 +388,3 @@ flowchart TB
 - Email: (isi email)
 - Issue tracker: gunakan tab **Issues** di GitHub untuk bug report dan feature request
 
-## Diagram Alur (Login dan Role)
-
-```mermaid
-flowchart TB
-START([Start])
-LP([Landing Page / Login])
-click LP href "/LibraryManagement/index.php" "Buka Landing Page / Login"
-CREDS{Kredensial valid?}
-ROLE{Role admin?}
-ERR_LOGIN([Tampilkan error login])
-START --> LP --> CREDS
-CREDS -- Tidak --> ERR_LOGIN --> LP
-CREDS -- Ya --> ROLE
-AD([Dashboard Admin])
-click AD href "/LibraryManagement/admin/dashboard.php" "Buka Dashboard Admin"
-UD([Dashboard User])
-click UD href "/LibraryManagement/user/dashboard.php" "Buka Dashboard User"
-ROLE -- Admin --> AD
-ROLE -- User --> UD
-```
