@@ -217,6 +217,7 @@ Pedoman teknis:
 - Jangan menampilkan detail error database ke user (hindari leak info sensitif).
 - Ikuti pola `requireLogin()` / `requireAdmin()` pada halaman yang butuh proteksi.
 
+```mermaid
 flowchart TB
     %% Start & Landing
     START((Start))
@@ -379,6 +380,7 @@ flowchart TB
     GOAL_PINJAM --> END
     GOAL_KEMBALI --> END
     GOAL_PROFIL --> END
+```
 
 ## Kontak
 
