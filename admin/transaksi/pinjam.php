@@ -264,7 +264,7 @@ $bukuList = $pdo->query("SELECT id, kode_buku, judul, pengarang, cover, jumlah_t
 
         if (!nis) return;
 
-        fetch('/LibraryManagement/proses/get_anggota_by_nis.php?nis=' + nis)
+        fetch('<?= htmlspecialchars(defined('BASE_URL') ? BASE_URL : '', ENT_QUOTES, 'UTF-8') ?>/proses/get_anggota_by_nis.php?nis=' + encodeURIComponent(nis))
             .then(res => res.json())
             .then(result => {
                 if (result.status === 'found') {
@@ -321,7 +321,7 @@ $bukuList = $pdo->query("SELECT id, kode_buku, judul, pengarang, cover, jumlah_t
                         infoDiv.innerHTML = `
                         <div class="text-center">
                             ${data.foto ? 
-                                `<img src="/LibraryManagement/proses/uploads/${data.foto}" class="profile-photo-large mb-2" alt="Foto">` :
+                                `<img src="<?= htmlspecialchars(defined('BASE_URL') ? BASE_URL : '', ENT_QUOTES, 'UTF-8') ?>/proses/uploads/${data.foto}" class="profile-photo-large mb-2" alt="Foto">` :
                                 `<div class="profile-photo-large bg-light d-flex align-items-center justify-content-center mb-2 mx-auto">
                                     <i class="bi bi-person text-muted" style="font-size: 3rem;"></i>
                                  </div>`
@@ -382,7 +382,7 @@ $bukuList = $pdo->query("SELECT id, kode_buku, judul, pengarang, cover, jumlah_t
                         infoDiv.innerHTML = `
                         <div class="text-center">
                             ${data.cover ? 
-                                `<img src="/LibraryManagement/proses/uploads/${data.cover}" class="book-cover-large mb-2" alt="Cover">` :
+                                `<img src="<?= htmlspecialchars(defined('BASE_URL') ? BASE_URL : '', ENT_QUOTES, 'UTF-8') ?>/proses/uploads/${data.cover}" class="book-cover-large mb-2" alt="Cover">` :
                                 `<div class="book-cover-large bg-light d-flex align-items-center justify-content-center mb-2 mx-auto">
                                     <i class="bi bi-book text-muted" style="font-size: 3rem;"></i>
                                  </div>`

@@ -210,7 +210,7 @@ include '../../includes/header.php';
                         </div>
                         <div class="card-body text-center">
                             <?php if ($anggota['foto']): ?>
-                                <img id="foto-current" src="/LibraryManagement/proses/uploads/<?= htmlspecialchars($anggota['foto']) ?>" 
+                                <img id="foto-current" src="<?= htmlspecialchars(defined('BASE_URL') ? BASE_URL : '', ENT_QUOTES, 'UTF-8') ?>/proses/uploads/<?= htmlspecialchars($anggota['foto']) ?>" 
                                      alt="Foto Saat Ini" class="profile-photo-large mb-3">
                             <?php else: ?>
                                 <div id="foto-placeholder" class="profile-photo-large bg-light d-flex align-items-center justify-content-center mb-3 mx-auto">

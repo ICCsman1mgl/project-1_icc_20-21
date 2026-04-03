@@ -285,8 +285,8 @@ $bukuTersedia = $pdo->query("SELECT id, kode_buku, judul, pengarang FROM buku WH
                     <div class="card-body">
                         <div class="text-center mb-3">
                             <?php if ($selectedBuku['cover']): ?>
-                                <img src="/LibraryManagement/proses/uploads/<?= htmlspecialchars($selectedBuku['cover']) ?>"
-                                    class="book-cover-large" alt="Cover">
+                                <img src="<?= htmlspecialchars(defined('BASE_URL') ? BASE_URL : '', ENT_QUOTES, 'UTF-8') ?>/proses/uploads/<?= htmlspecialchars($selectedBuku['cover']) ?>"
+                                    class="book-cover-large" alt="Cover: <?= htmlspecialchars($selectedBuku['judul']) ?>" loading="lazy" width="200" height="250">
                             <?php else: ?>
                                 <div class="book-cover-large bg-light d-flex align-items-center justify-content-center mx-auto">
                                     <i class="bi bi-book text-muted" style="font-size: 3rem;"></i>
@@ -396,7 +396,7 @@ $bukuTersedia = $pdo->query("SELECT id, kode_buku, judul, pengarang FROM buku WH
     document.getElementById('nis_input').addEventListener('change', function() {
         let nis = this.value;
 
-        fetch('/LibraryManagement/proses/get_anggota_by_nis.php?nis=' + nis)
+        fetch('<?= htmlspecialchars(defined('BASE_URL') ? BASE_URL : '', ENT_QUOTES, 'UTF-8') ?>/proses/get_anggota_by_nis.php?nis=' + encodeURIComponent(nis))
             .then(response => response.json())
             .then(result => {
                 if (result.status === 'found') {

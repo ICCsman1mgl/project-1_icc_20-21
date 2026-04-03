@@ -85,7 +85,7 @@ $bukuPopuler = $pdo->query("
             <a class="nav-link text-white-50" href="laporan/index.php">
                 <i class="bi bi-file-earmark-text"></i> Laporan
             </a>
-            <a class="nav-link" href="/LibraryManagement/admin/anggota/import.php">
+            <a class="nav-link" href="<?= htmlspecialchars(defined('BASE_URL') ? BASE_URL : '', ENT_QUOTES, 'UTF-8') ?>/admin/anggota/import.php">
                 <i class="fas fa-file-import"></i> Import Anggota
             </a>
             <a class="nav-link text-white-50" href="transaksi/scan_nis.php">
@@ -314,7 +314,7 @@ $bukuPopuler = $pdo->query("
                                                     <td>
                                                         <div class="d-flex align-items-center">
                                                             <?php if (!empty($transaksi['cover'])): ?>
-                                                                <img src="/LibraryManagement/proses/uploads/<?= htmlspecialchars($transaksi['cover']) ?>"
+                                                                <img src="<?= htmlspecialchars(defined('BASE_URL') ? BASE_URL : '', ENT_QUOTES, 'UTF-8') ?>/proses/uploads/<?= htmlspecialchars($transaksi['cover']) ?>"
                                                                     class="book-cover me-2" alt="<?= htmlspecialchars($transaksi['judul']) ?>">
                                                             <?php else: ?>
                                                                 <div class="book-cover me-2 bg-light d-flex align-items-center justify-content-center">
@@ -381,7 +381,7 @@ $bukuPopuler = $pdo->query("
                                         </div>
                                         <div class="me-3">
                                             <?php if ($buku['cover']): ?>
-                                                <img src="/LibraryManagement/proses/uploads/<?= htmlspecialchars($buku['cover']) ?>"
+                                                <img src="<?= htmlspecialchars(defined('BASE_URL') ? BASE_URL : '', ENT_QUOTES, 'UTF-8') ?>/proses/uploads/<?= htmlspecialchars($buku['cover']) ?>"
                                                     alt="<?= htmlspecialchars($buku['judul']) ?>">
 
                                             <?php else: ?>

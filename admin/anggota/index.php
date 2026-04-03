@@ -60,7 +60,7 @@ $anggotaList = $anggotaStmt->fetchAll();
             <a class="nav-link text-white-50" href="../laporan/index.php">
                 <i class="bi bi-file-earmark-text"></i> Laporan
             </a>
-            <a class="nav-link" href="/LibraryManagement/admin/anggota/import.php">
+            <a class="nav-link" href="<?= htmlspecialchars(defined('BASE_URL') ? BASE_URL : '', ENT_QUOTES, 'UTF-8') ?>/admin/anggota/import.php">
                 <i class="fas fa-file-import"></i> Import Anggota
             </a>
         </nav>
@@ -249,7 +249,7 @@ $anggotaList = $anggotaStmt->fetchAll();
                                         <tr>
                                             <td>
                                                 <?php if ($anggota['foto']): ?>
-                                                    <img src="/LibraryManagement/proses/uploads/<?= htmlspecialchars($anggota['foto']) ?>"
+                                                    <img src="<?= htmlspecialchars(defined('BASE_URL') ? BASE_URL : '', ENT_QUOTES, 'UTF-8') ?>/proses/uploads/<?= htmlspecialchars($anggota['foto']) ?>"
                                                         alt="Foto <?= htmlspecialchars($anggota['nama_lengkap']) ?>"
                                                         class="profile-photo">
                                                 <?php else: ?>

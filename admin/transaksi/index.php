@@ -271,7 +271,7 @@ $stats = [
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <?php if ($transaksi['foto_user']): ?>
-                                                        <img src="/LibraryManagement/proses/uploads/<?= htmlspecialchars($transaksi['foto_user']) ?>" 
+                                                        <img src="<?= htmlspecialchars(defined('BASE_URL') ? BASE_URL : '', ENT_QUOTES, 'UTF-8') ?>/proses/uploads/<?= htmlspecialchars($transaksi['foto_user']) ?>" 
                                                              class="profile-photo me-2" alt="Foto">
                                                     <?php else: ?>
                                                         <div class="profile-photo bg-light d-flex align-items-center justify-content-center me-2">
@@ -286,8 +286,8 @@ $stats = [
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <?php if ($transaksi['cover']): ?>
-                                                        <img src="/LibraryManagement/proses/uploads/<?= htmlspecialchars($transaksi['cover']) ?>" 
-                                                                                     class="book-cover-large" alt="Cover">
+                                                        <img src="<?= htmlspecialchars(defined('BASE_URL') ? BASE_URL : '', ENT_QUOTES, 'UTF-8') ?>/proses/uploads/<?= htmlspecialchars($transaksi['cover']) ?>" 
+                                                                                     class="book-cover-large" alt="Cover: <?= htmlspecialchars($transaksi['judul']) ?>" loading="lazy" width="200" height="250">
                                                     <?php else: ?>
                                                         <div class="book-cover bg-light d-flex align-items-center justify-content-center me-2">
                                                             <i class="bi bi-book text-muted"></i>
@@ -408,8 +408,8 @@ $stats = [
                                                                         <h6>Informasi Buku</h6>
                                                                         <div class="text-center mb-3">
                                                                             <?php if ($transaksi['cover']): ?>
-                                                                                <img src="/LibraryManagement/proses/uploads/<?= htmlspecialchars($transaksi['cover']) ?>" 
-                                                                                     class="book-cover-large" alt="Cover">
+                                                                                <img src="<?= htmlspecialchars(defined('BASE_URL') ? BASE_URL : '', ENT_QUOTES, 'UTF-8') ?>/proses/uploads/<?= htmlspecialchars($transaksi['cover']) ?>" 
+                                                                                     class="book-cover-large" alt="Cover: <?= htmlspecialchars($transaksi['judul']) ?>" loading="lazy" width="200" height="250">
                                                                             <?php else: ?>
                                                                                 <div class="book-cover-large bg-light d-flex align-items-center justify-content-center mx-auto">
                                                                                     <i class="bi bi-book text-muted" style="font-size: 3rem;"></i>

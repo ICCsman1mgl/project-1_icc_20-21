@@ -267,8 +267,8 @@ $transaksiAktif = $pdo->query("SELECT t.*, u.nama_lengkap, b.judul, b.pengarang,
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <?php if ($transaksi['cover']): ?>
-                                                <img src="/LibraryManagement/proses/uploads/<?= htmlspecialchars($transaksi['cover']) ?>" 
-                                                     class="book-cover me-2" alt="Cover">
+                                                <img src="<?= htmlspecialchars(defined('BASE_URL') ? BASE_URL : '', ENT_QUOTES, 'UTF-8') ?>/proses/uploads/<?= htmlspecialchars($transaksi['cover']) ?>" 
+                                                     class="book-cover me-2" alt="Cover: <?= htmlspecialchars($transaksi['judul']) ?>" loading="lazy" width="80" height="120">
                                             <?php else: ?>
                                                 <div class="book-cover bg-light d-flex align-items-center justify-content-center me-2">
                                                     <i class="bi bi-book text-muted"></i>
@@ -335,7 +335,7 @@ function tampilkanDetailTransaksi(option) {
             <div class="row">
                 <div class="col-md-4 text-center">
                     ${cover ? 
-                        `<img src="/LibraryManagement/proses/uploads/${cover}" class="book-cover-large mb-2" alt="Cover">` :
+                        `<img src="<?= htmlspecialchars(defined('BASE_URL') ? BASE_URL : '', ENT_QUOTES, 'UTF-8') ?>/proses/uploads/${cover}" class="book-cover-large mb-2" alt="Cover">` :
                         `<div class="book-cover-large bg-light d-flex align-items-center justify-content-center mb-2 mx-auto">
                             <i class="bi bi-book text-muted" style="font-size: 3rem;"></i>
                          </div>`

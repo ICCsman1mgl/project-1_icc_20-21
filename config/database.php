@@ -7,20 +7,25 @@
  * - Gunakan environment variables agar kredensial tidak hardcoded.
  */
 
-define('APP_ENV', getenv('APP_ENV') ?: 'production'); // production|staging|local
-define('APP_DEBUG', (getenv('APP_DEBUG') ?: '0') === '1');
+function envValue(string $key, $default = null) {
+    $value = getenv($key);
+    return $value === false ? $default : $value;
+}
 
-define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
-define('DB_USERNAME', getenv('DB_USERNAME') ?: 'root');
-define('DB_PASSWORD', getenv('DB_PASSWORD') ?: '');
-define('DB_NAME', getenv('DB_NAME') ?: 'perpustakaan');
+define('APP_ENV', envValue('APP_ENV', 'production')); // production|staging|local
+define('APP_DEBUG', envValue('APP_DEBUG', '0') === '1');
 
-define('BASE_URL', getenv('BASE_URL') ?: '/LibraryManagement');
+define('DB_HOST', envValue('DB_HOST', 'localhost'));
+define('DB_USERNAME', envValue('DB_USERNAME', 'root'));
+define('DB_PASSWORD', envValue('DB_PASSWORD', ''));
+define('DB_NAME', envValue('DB_NAME', 'perpustakaan'));
 
-define('APP_LOG_PATH', getenv('APP_LOG_PATH') ?: (__DIR__ . '/../storage/logs/app.log'));
+define('BASE_URL', envValue('BASE_URL', '/LibraryManagement'));
 
-define('ENABLE_HTTPS_REDIRECT', (getenv('ENABLE_HTTPS_REDIRECT') ?: '0') === '1');
-define('CSRF_TOKEN_TTL', (int)(getenv('CSRF_TOKEN_TTL') ?: 7200));
+define('APP_LOG_PATH', envValue('APP_LOG_PATH', __DIR__ . '/../storage/logs/app.log'));
+
+define('ENABLE_HTTPS_REDIRECT', envValue('ENABLE_HTTPS_REDIRECT', '0') === '1');
+define('CSRF_TOKEN_TTL', (int)envValue('CSRF_TOKEN_TTL', 7200));
 
 if (!defined('UPLOAD_DIR')) {
     define('UPLOAD_DIR', __DIR__ . '/../proses/uploads');

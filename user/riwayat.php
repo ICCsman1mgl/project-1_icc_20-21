@@ -237,8 +237,8 @@ foreach ($stats as $key => $stmt) {
                                 <td>
                                     <div class="d-flex align-items-center">
                                         <?php if ($riwayat['cover']): ?>
-                                            <img src="/LibraryManagement/proses/uploads/<?= htmlspecialchars($riwayat['cover']) ?>" 
-                                                 class="book-cover me-3" alt="Cover">
+                                            <img src="<?= htmlspecialchars(defined('BASE_URL') ? BASE_URL : '', ENT_QUOTES, 'UTF-8') ?>/proses/uploads/<?= htmlspecialchars($riwayat['cover']) ?>" 
+                                                 class="book-cover me-3" alt="Cover: <?= htmlspecialchars($riwayat['judul']) ?>" loading="lazy" width="80" height="120">
                                         <?php else: ?>
                                             <div class="book-cover bg-light d-flex align-items-center justify-content-center me-3">
                                                 <i class="bi bi-book text-muted"></i>
@@ -335,8 +335,8 @@ foreach ($stats as $key => $stmt) {
                                             <div class="row">
                                                 <div class="col-md-4 text-center">
                                                     <?php if ($riwayat['cover']): ?>
-                                                        <img src="/LibraryManagement/proses/uploads/<?= htmlspecialchars($riwayat['cover']) ?>" 
-                                                             class="book-cover-large mb-3" alt="Cover">
+                                                        <img src="<?= htmlspecialchars(defined('BASE_URL') ? BASE_URL : '', ENT_QUOTES, 'UTF-8') ?>/proses/uploads/<?= htmlspecialchars($riwayat['cover']) ?>" 
+                                                             class="book-cover-large mb-3" alt="Cover: <?= htmlspecialchars($riwayat['judul']) ?>" loading="lazy" width="200" height="250">
                                                     <?php else: ?>
                                                         <div class="book-cover-large bg-light d-flex align-items-center justify-content-center mb-3 mx-auto">
                                                             <i class="bi bi-book text-muted" style="font-size: 3rem;"></i>
