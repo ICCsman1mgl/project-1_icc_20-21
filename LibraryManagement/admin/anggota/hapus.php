@@ -36,8 +36,11 @@ if (!$anggota) {
 
 try {
     // Hapus file foto jika ada
-    if ($anggota['foto'] && file_exists('../../uploads/' . $anggota['foto'])) {
-        unlink('../../uploads/' . $anggota['foto']);
+    if (!empty($anggota['foto'])) {
+        $fotoPath = rtrim(UPLOAD_DIR, "/\\") . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $anggota['foto']);
+        if (file_exists($fotoPath)) {
+            unlink($fotoPath);
+        }
     }
     
     // Hapus data anggota dari database
@@ -47,7 +50,7 @@ try {
     $_SESSION['success'] = 'Anggota "' . $anggota['nama_lengkap'] . '" berhasil dihapus';
     
 } catch (PDOException $e) {
-    $_SESSION['error'] = 'Gagal menghapus anggota: ' . $e->getMessage();
+    $_SESSION['error'] = 'Gagal menghapus anggota. Silakan coba lagi.';
 }
 
 header('Location: index.php');

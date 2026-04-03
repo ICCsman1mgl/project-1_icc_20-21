@@ -97,8 +97,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $uploadResult = uploadFile($_FILES['foto'], 'profiles');
             if ($uploadResult['success']) {
                 // Hapus foto lama jika ada
-                if ($adminLama['foto'] && file_exists('../uploads/' . $adminLama['foto'])) {
-                    unlink('../uploads/' . $adminLama['foto']);
+                if ($adminLama['foto']) {
+                    $fotoPath = rtrim(UPLOAD_DIR, "/\\") . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $adminLama['foto']);
+                    if (file_exists($fotoPath)) {
+                        unlink($fotoPath);
+                    }
                 }
                 $fotoFilename = $uploadResult['filename'];
             } else {
@@ -135,7 +138,7 @@ exit();
 
         
     } catch (PDOException $e) {
-        $_SESSION['error'] = 'Gagal memperbarui profil: ' . $e->getMessage();
+        $_SESSION['error'] = 'Gagal memperbarui profil. Silakan coba lagi.';
         header('Location: ../admin/profile.php');
         exit();
     }

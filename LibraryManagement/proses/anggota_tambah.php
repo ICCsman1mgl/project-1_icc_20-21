@@ -90,12 +90,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit();
         
     } catch (PDOException $e) {
-        // Hapus file yang sudah diupload jika ada error
-        if ($fotoFilename && file_exists('../uploads/' . $fotoFilename)) {
-            unlink('../uploads/' . $fotoFilename);
+        if ($fotoFilename) {
+            $fotoPath = rtrim(UPLOAD_DIR, "/\\") . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $fotoFilename);
+            if (file_exists($fotoPath)) {
+                unlink($fotoPath);
+            }
         }
-        
-        $_SESSION['error'] = 'Gagal menambah anggota: ' . $e->getMessage();
+
+        $_SESSION['error'] = 'Gagal menambah anggota. Silakan coba lagi.';
         header('Location: ../admin/anggota/tambah.php');
         exit();
     }

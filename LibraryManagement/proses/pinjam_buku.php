@@ -134,7 +134,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit();
         
     } catch (Exception $e) {
-        $pdo->rollBack();
+        if (isset($pdo) && $pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
         $_SESSION['error'] = $e->getMessage();
         
         if ($redirect === 'user') {

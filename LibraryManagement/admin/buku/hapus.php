@@ -38,8 +38,7 @@ if (!$buku) {
 try {
     // Jika cover tidak kosong
     if (!empty($buku['cover'])) {
-        $coverPath = '../../uploads/' . $buku['cover']; 
-        // Cek apakah file memang ada sebelum dihapus
+        $coverPath = rtrim(UPLOAD_DIR, "/\\") . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $buku['cover']);
         if (file_exists($coverPath)) {
             unlink($coverPath);
         }
@@ -51,7 +50,7 @@ try {
     
     $_SESSION['success'] = 'Buku "' . htmlspecialchars($buku['judul']) . '" berhasil dihapus';
 } catch (PDOException $e) {
-    $_SESSION['error'] = 'Gagal menghapus buku: ' . $e->getMessage();
+    $_SESSION['error'] = 'Gagal menghapus buku. Silakan coba lagi.';
 }
 
 header('Location: ../dashboard.php');

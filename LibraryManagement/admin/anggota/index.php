@@ -60,8 +60,8 @@ $anggotaList = $anggotaStmt->fetchAll();
             <a class="nav-link text-white-50" href="../laporan/index.php">
                 <i class="bi bi-file-earmark-text"></i> Laporan
             </a>
-            <a class="nav-link" href="/admin/anggota/import.php">
-                <i class="fas fa-file-import">Import Anggota</i>
+            <a class="nav-link" href="/LibraryManagement/admin/anggota/import.php">
+                <i class="fas fa-file-import"></i> Import Anggota
             </a>
         </nav>
     </div>

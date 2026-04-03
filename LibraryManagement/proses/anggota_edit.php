@@ -90,8 +90,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $uploadResult = uploadFile($_FILES['foto'], 'profiles');
             if ($uploadResult['success']) {
                 // Hapus foto lama jika ada
-                if ($anggotaLama['foto'] && file_exists('../uploads/' . $anggotaLama['foto'])) {
-                    unlink('../uploads/' . $anggotaLama['foto']);
+                if ($anggotaLama['foto']) {
+                    $fotoPath = rtrim(UPLOAD_DIR, "/\\") . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $anggotaLama['foto']);
+                    if (file_exists($fotoPath)) {
+                        unlink($fotoPath);
+                    }
                 }
                 $fotoFilename = $uploadResult['filename'];
             } else {
@@ -118,7 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit();
         
     } catch (PDOException $e) {
-        $_SESSION['error'] = 'Gagal memperbarui anggota: ' . $e->getMessage();
+        $_SESSION['error'] = 'Gagal memperbarui anggota. Silakan coba lagi.';
         header('Location: ../admin/anggota/edit.php?id=' . $id);
         exit();
     }

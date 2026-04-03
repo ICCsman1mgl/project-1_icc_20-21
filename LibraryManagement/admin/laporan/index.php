@@ -314,7 +314,7 @@ $dataKeterlambatan = $stmt->fetchAll();
                                         <td>
                                             <div class="d-flex align-items-center">
                                                 <?php if ($buku['cover']): ?>
-                                                    <img src="../../uploads/<?= htmlspecialchars($buku['cover']) ?>" 
+                                                    <img src="../../proses/uploads/<?= htmlspecialchars($buku['cover']) ?>" 
                                                          class="book-cover me-2" alt="Cover">
                                                 <?php else: ?>
                                                     <div class="book-cover bg-light d-flex align-items-center justify-content-center me-2">

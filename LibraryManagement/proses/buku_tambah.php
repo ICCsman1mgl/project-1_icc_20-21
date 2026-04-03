@@ -65,12 +65,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit();
         
     } catch (PDOException $e) {
-        // Hapus file yang sudah diupload jika ada error
-        if ($coverFilename && file_exists('../uploads/' . $coverFilename)) {
-            unlink('../uploads/' . $coverFilename);
+        if ($coverFilename) {
+            $coverPath = rtrim(UPLOAD_DIR, "/\\") . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $coverFilename);
+            if (file_exists($coverPath)) {
+                unlink($coverPath);
+            }
         }
-        
-        $_SESSION['error'] = 'Gagal menambah buku: ' . $e->getMessage();
+
+        $_SESSION['error'] = 'Gagal menambah buku. Silakan coba lagi.';
         header('Location: ../admin/buku/tambah.php');
         exit();
     }

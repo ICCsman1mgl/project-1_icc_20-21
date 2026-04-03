@@ -12,7 +12,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     
     <!-- Custom CSS -->
-    <link href="<?= isset($cssPath) ? $cssPath : '/assets/css/style.css' ?>" rel="stylesheet">
+    <link href="<?= isset($cssPath) ? $cssPath : (defined('BASE_URL') ? BASE_URL . '/assets/css/style.css' : '/assets/css/style.css') ?>" rel="stylesheet">
     
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -22,6 +22,6 @@
     <meta name="author" content="Perpustakaan Digital">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="<?= defined('BASE_URL') ? BASE_URL . '/assets/img/favicon.ico' : '/assets/img/favicon.ico' ?>">
 </head>
 <body class="bg-light">

@@ -31,7 +31,7 @@ if (isset($_GET['id'])) {
         ]);
         
     } catch (PDOException $e) {
-        echo json_encode(['success' => false, 'message' => 'Error database: ' . $e->getMessage()]);
+        echo json_encode(['success' => false, 'message' => 'Terjadi kesalahan sistem.']);
     }
 } else {
     echo json_encode(['success' => false, 'message' => 'ID buku tidak diberikan']);

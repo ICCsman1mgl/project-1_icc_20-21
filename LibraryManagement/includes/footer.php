@@ -34,7 +34,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Custom JS -->
-    <script src="/LibraryManagement/assets/js/script.js"></script>
+    <script src="<?= defined('BASE_URL') ? BASE_URL . '/assets/js/script.js' : '/assets/js/script.js' ?>"></script>
 
 
     <!-- Custom JavaScript untuk halaman spesifik -->

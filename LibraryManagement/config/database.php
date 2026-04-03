@@ -5,6 +5,8 @@ define('DB_USERNAME', 'root');
 define('DB_PASSWORD', '');
 define('DB_NAME', 'perpustakaan');
 
+define('BASE_URL', '/LibraryManagement');
+
 
 // Koneksi ke database
 function getConnection() {
@@ -53,7 +55,7 @@ function isAdmin() {
 // Fungsi untuk redirect jika tidak login
 function requireLogin() {
     if (!isLoggedIn()) {
-        header('Location: /login.php');
+        header('Location: ' . BASE_URL . '/login.php');
         exit();
     }
 }
@@ -62,7 +64,7 @@ function requireLogin() {
 function requireAdmin() {
     requireLogin();
     if (!isAdmin()) {
-        header('Location: /user/dashboard.php');
+        header('Location: ' . BASE_URL . '/user/dashboard.php');
         exit();
     }
 }
@@ -71,7 +73,7 @@ function requireAdmin() {
 function cleanInput($data) {
     $data = trim($data);
     $data = stripslashes($data);
-    $data = htmlspecialchars($data);
+    $data = htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
     return $data;
 }
 
@@ -80,13 +82,13 @@ function generateCode($prefix, $length = 8) {
     $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $code = $prefix;
     for ($i = 0; $i < $length; $i++) {
-        $code .= $characters[rand(0, strlen($characters) - 1)];
+        $code .= $characters[random_int(0, strlen($characters) - 1)];
     }
     return $code;
 }
 
 // Konstanta untuk upload
-define('UPLOAD_DIR', 'uploads/');
+define('UPLOAD_DIR', __DIR__ . '/../proses/uploads');
 define('MAX_FILE_SIZE', 2 * 1024 * 1024); // 2MB
 define('ALLOWED_EXTENSIONS', ['jpg', 'jpeg', 'png', 'gif']);
 
@@ -96,7 +98,8 @@ function uploadFile($file, $subfolder = '') {
         return ['success' => false, 'message' => 'Tidak ada file yang diupload atau terjadi error'];
     }
     
-    $uploadDir = UPLOAD_DIR . $subfolder;
+    $subfolder = trim($subfolder, "/\\");
+    $uploadDir = rtrim(UPLOAD_DIR, "/\\") . ($subfolder !== '' ? DIRECTORY_SEPARATOR . $subfolder : '');
     if (!is_dir($uploadDir)) {
         mkdir($uploadDir, 0755, true);
     }
@@ -112,10 +115,11 @@ function uploadFile($file, $subfolder = '') {
     }
     
     $fileName = uniqid() . '.' . $fileExtension;
-    $targetPath = $uploadDir . '/' . $fileName;
+    $targetPath = rtrim($uploadDir, "/\\") . DIRECTORY_SEPARATOR . $fileName;
     
     if (move_uploaded_file($file['tmp_name'], $targetPath)) {
-        return ['success' => true, 'filename' => $subfolder . '/' . $fileName];
+        $relativePath = ($subfolder !== '' ? $subfolder . '/' : '') . $fileName;
+        return ['success' => true, 'filename' => $relativePath];
     } else {
         return ['success' => false, 'message' => 'Gagal mengupload file'];
     }

@@ -1,27 +1,8 @@
 <?php
-// import.php
-// Import anggota dari CSV ke tabel anggota (berdasarkan NIS)
+require_once __DIR__ . '/../../config/database.php';
+requireAdmin();
 
-// Wajib: koneksi PDO dari project kamu
-// Sesuaikan path-nya:
-require_once __DIR__ . '/../../config/database.php'; // kalau file PDO kamu ada di config/database.php
-
-// Pastikan $pdo tersedia dari file di atas.
-// Kalau di file kamu nama variabelnya beda, sesuaikan.
-// Fallback: kalau project ternyata pakai MySQLi, bikin PDO khusus untuk import
-if (!isset($pdo) || !($pdo instanceof PDO)) {
-    try {
-        $pdo = new PDO(
-            "mysql:host=localhost;dbname=perpustakaan;charset=utf8mb4",
-            "root",
-            ""
-        );
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-    } catch (Exception $e) {
-        die("Koneksi PDO gagal: " . $e->getMessage());
-    }
-}
+$pdo = getConnection();
 
 
 function normalizeHeader(string $h): string {
@@ -67,52 +48,78 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         'no_hp' => array_search('no_hp', $headers, true),
                         'alamat' => array_search('alamat', $headers, true),
                     ];
+                    $emailIndex = array_search('email', $headers, true);
+                    $statusIndex = array_search('status', $headers, true);
 
                     // Mode:
                     // - insert_only: kalau NIS sudah ada -> skip
                     // - upsert: kalau NIS sudah ada -> update data non-null
                     $mode = ($_POST['mode'] ?? 'insert_only') === 'upsert' ? 'upsert' : 'insert_only';
 
-                    // Siapkan statement
-                    // Pakai INSERT IGNORE supaya duplikat NIS tidak error (butuh UNIQUE(nis) sudah ada)
                     $stmtInsert = $pdo->prepare("
-                        INSERT IGNORE INTO anggota (nis, nama, no_hp, alamat)
-                        VALUES (:nis, :nama, :no_hp, :alamat)
+                        INSERT IGNORE INTO users (
+                            username, password, email, role, nama_lengkap, alamat, telepon, status
+                        ) VALUES (
+                            :username, :password, :email, 'user', :nama_lengkap, :alamat, :telepon, :status
+                        )
                     ");
 
                     $stmtUpdate = $pdo->prepare("
-                        UPDATE anggota
+                        UPDATE users
                         SET
-                            nama = COALESCE(:nama, nama),
-                            no_hp = COALESCE(:no_hp, no_hp),
-                            alamat = COALESCE(:alamat, alamat)
-                        WHERE nis = :nis
+                            nama_lengkap = COALESCE(:nama_lengkap, nama_lengkap),
+                            telepon = COALESCE(:telepon, telepon),
+                            alamat = COALESCE(:alamat, alamat),
+                            email = COALESCE(:email, email),
+                            status = COALESCE(:status, status),
+                            updated_at = NOW()
+                        WHERE username = :username AND role = 'user'
                     ");
 
                     $pdo->beginTransaction();
                     try {
                         while (($row = fgetcsv($fh)) !== false) {
-                            $nis = isset($row[$map['nis']]) ? trim($row[$map['nis']]) : '';
+                            $nis = isset($row[$map['nis']]) ? trim((string)$row[$map['nis']]) : '';
                             if ($nis === '') {
                                 $stats['skipped']++;
                                 continue;
                             }
 
-                            $payload = [
-                                ':nis' => $nis,
-                                ':nama' => ($map['nama'] !== false && isset($row[$map['nama']])) ? toNullIfEmpty($row[$map['nama']]) : null,
-                                ':no_hp' => ($map['no_hp'] !== false && isset($row[$map['no_hp']])) ? toNullIfEmpty($row[$map['no_hp']]) : null,
+                            $emailFromCsv = null;
+                            if ($emailIndex !== false && isset($row[$emailIndex])) {
+                                $emailFromCsv = toNullIfEmpty($row[$emailIndex]);
+                            }
+
+                            $statusFromCsv = null;
+                            if ($statusIndex !== false && isset($row[$statusIndex])) {
+                                $statusFromCsv = toNullIfEmpty($row[$statusIndex]);
+                            }
+
+                            $emailForInsert = $emailFromCsv ?: ($nis . '@import.local');
+                            $namaFinal = ($map['nama'] !== false && isset($row[$map['nama']])) ? toNullIfEmpty($row[$map['nama']]) : null;
+                            $namaFinal = $namaFinal ?: $nis;
+
+                            $commonPayload = [
+                                ':username' => $nis,
+                                ':nama_lengkap' => $namaFinal,
+                                ':telepon' => ($map['no_hp'] !== false && isset($row[$map['no_hp']])) ? toNullIfEmpty($row[$map['no_hp']]) : null,
                                 ':alamat' => ($map['alamat'] !== false && isset($row[$map['alamat']])) ? toNullIfEmpty($row[$map['alamat']]) : null,
+                                ':status' => $statusFromCsv,
                             ];
 
-                            $stmtInsert->execute($payload);
+                            $payloadInsert = $commonPayload + [
+                                ':password' => password_hash($nis, PASSWORD_DEFAULT),
+                                ':email' => $emailForInsert,
+                                ':status' => $statusFromCsv ?: 'aktif',
+                            ];
+                            $stmtInsert->execute($payloadInsert);
 
                             if ($stmtInsert->rowCount() === 1) {
                                 $stats['inserted']++;
                             } else {
-                                // Duplikat NIS
                                 if ($mode === 'upsert') {
-                                    $stmtUpdate->execute($payload);
+                                    $payloadUpdate = $commonPayload + [':email' => $emailFromCsv];
+                                    $stmtUpdate->execute($payloadUpdate);
                                     $stats['updated'] += ($stmtUpdate->rowCount() > 0) ? 1 : 0;
                                 } else {
                                     $stats['skipped']++;
@@ -176,9 +183,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <hr>
 
     <p><b>Format CSV yang didukung</b></p>
-    <p>Minimal harus ada header <code>nis</code>. Kolom lain opsional.</p>
+    <p>Minimal harus ada header <code>nis</code>. Kolom lain opsional: <code>nama</code>, <code>email</code>, <code>no_hp</code>, <code>alamat</code>, <code>status</code>. Password default mengikuti nilai <code>nis</code>.</p>
     <p>Contoh header:</p>
-    <pre>nis,nama,no_hp,alamat</pre>
+    <pre>nis,nama,email,no_hp,alamat,status</pre>
   </div>
 </body>
 </html>

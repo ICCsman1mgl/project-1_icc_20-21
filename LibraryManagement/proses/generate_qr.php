@@ -1,6 +1,7 @@
 <?php
 require_once '../config/database.php';
 require_once '../assets/qrcode/phpqrcode.php';
+requireAdmin();
 
 
 $id = $_GET['id'] ?? '';
@@ -11,7 +12,7 @@ if (!$id) {
 
 $pdo = getConnection();
 
-$stmt = $pdo->prepare("SELECT nis FROM anggota WHERE id = ?");
+$stmt = $pdo->prepare("SELECT username FROM users WHERE id = ? AND role = 'user'");
 $stmt->execute([$id]);
 $data = $stmt->fetch();
 
@@ -19,7 +20,7 @@ if (!$data) {
     exit('Anggota tidak ditemukan');
 }
 
-$nis = $data['nis'];
+$nis = $data['username'];
 
 header('Content-Type: image/png');
 QRcode::png($nis, false, QR_ECLEVEL_H, 6);

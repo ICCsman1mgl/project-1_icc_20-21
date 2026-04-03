@@ -243,7 +243,7 @@ include '../../includes/header.php';
                         </div>
                         <div class="card-body text-center">
                             <?php if ($buku['cover']): ?>
-                                <img id="cover-current" src="../../uploads/<?= htmlspecialchars($buku['cover']) ?>" 
+                                <img id="cover-current" src="../../proses/uploads/<?= htmlspecialchars($buku['cover']) ?>" 
                                      alt="Cover Saat Ini" class="book-cover-large mb-3">
                             <?php else: ?>
                                 <div id="cover-placeholder" class="book-cover-large bg-light d-flex align-items-center justify-content-center mb-3 mx-auto">

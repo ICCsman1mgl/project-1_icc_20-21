@@ -67,8 +67,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $uploadResult = uploadFile($_FILES['cover'], 'covers');
             if ($uploadResult['success']) {
                 // Hapus cover lama jika ada
-                if ($bukuLama['cover'] && file_exists('../uploads/' . $bukuLama['cover'])) {
-                    unlink('../uploads/' . $bukuLama['cover']);
+                if ($bukuLama['cover']) {
+                    $coverPath = rtrim(UPLOAD_DIR, "/\\") . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $bukuLama['cover']);
+                    if (file_exists($coverPath)) {
+                        unlink($coverPath);
+                    }
                 }
                 $coverFilename = $uploadResult['filename'];
             } else {

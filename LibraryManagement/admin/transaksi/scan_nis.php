@@ -1,5 +1,6 @@
 <?php
-// admin/transaksi/scan_nis.php
+require_once '../../config/database.php';
+requireAdmin();
 ?>
 <!doctype html>
 <html lang="id">
@@ -65,10 +66,6 @@
 </head>
 
 <body>
-    <a class="dropdown-item" href="/LibraryManagement/admin/transaksi/scan_nis.php">
-        Scan NIS (QR)
-    </a>
-
     <div class="wrap">
         <h2>Scan QR (NIS)</h2>
 

@@ -41,7 +41,7 @@ if (!$admin) {
                     <div class="card">
                         <div class="card-body text-center">
                             <?php if (!empty($admin['foto'])): ?>
-                            <img src="../uploads/<?= htmlspecialchars($admin['foto']); ?>?v=<?= time(); ?>"
+                            <img src="<?= BASE_URL ?>/proses/uploads/<?= htmlspecialchars($admin['foto']); ?>?v=<?= time(); ?>"
      alt="Profile"
      class="rounded-circle"
      style="width:150px;height:150px;object-fit:cover;">

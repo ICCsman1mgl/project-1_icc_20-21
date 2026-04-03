@@ -49,7 +49,7 @@ $stats = $stmt->fetch();
                     <div class="card">
                         <div class="card-body text-center">
                             <?php if (!empty($user['foto'])): ?>
-                                <img src="../uploads/<?= htmlspecialchars($user['foto']) ?>" 
+                                <img src="<?= BASE_URL ?>/proses/uploads/<?= htmlspecialchars($user['foto']) ?>" 
                                      alt="Profile" class="rounded-circle mb-3" 
                                      style="width: 150px; height: 150px; object-fit: cover;">
                             <?php else: ?>
