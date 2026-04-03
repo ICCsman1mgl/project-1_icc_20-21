@@ -1,3 +1,4 @@
+    </main>
     <!-- Footer -->
     <footer class="footer mt-auto py-3 bg-dark text-light">
         <div class="container">
@@ -20,30 +21,20 @@
         </div>
     </footer>
     <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script nonce="<?= htmlspecialchars(cspNonce(), ENT_QUOTES, 'UTF-8') ?>" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- Bootstrap 5 -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script nonce="<?= htmlspecialchars(cspNonce(), ENT_QUOTES, 'UTF-8') ?>" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- DataTables -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script nonce="<?= htmlspecialchars(cspNonce(), ENT_QUOTES, 'UTF-8') ?>" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script nonce="<?= htmlspecialchars(cspNonce(), ENT_QUOTES, 'UTF-8') ?>" src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
     <!-- SweetAlert -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script nonce="<?= htmlspecialchars(cspNonce(), ENT_QUOTES, 'UTF-8') ?>" src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Custom JS -->
-    <script src="<?= defined('BASE_URL') ? BASE_URL . '/assets/js/script.js' : '/assets/js/script.js' ?>"></script>
-
-
-    <!-- Custom JavaScript untuk halaman spesifik -->
-    <?php if (isset($customJS)): ?>
-        <script>
-            <?= $customJS ?>
-        </script>
-    <?php endif; ?>
-
+    <script nonce="<?= htmlspecialchars(cspNonce(), ENT_QUOTES, 'UTF-8') ?>" src="<?= defined('BASE_URL') ? BASE_URL . '/assets/js/script.js' : '/assets/js/script.js' ?>"></script>
     </body>
 
     </html>

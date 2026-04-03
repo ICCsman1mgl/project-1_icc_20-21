@@ -3,6 +3,8 @@ require_once '../config/database.php';
 requireAdmin();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    requireCsrf();
+
     $id = (int)$_POST['id'];
     $kode_buku = cleanInput($_POST['kode_buku']);
     $judul = cleanInput($_POST['judul']);
@@ -99,6 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit();
         
     } catch (PDOException $e) {
+        appLog('ERROR', 'Gagal memperbarui buku', ['buku_id' => $id, 'error' => $e->getMessage()]);
         $_SESSION['error'] = 'Gagal memperbarui buku: ' . $e->getMessage();
         header('Location: ../admin/buku/edit.php?id=' . $id);
         exit();

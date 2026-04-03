@@ -430,7 +430,7 @@ $dataKeterlambatan = $stmt->fetchAll();
     </div>
 </div>
 
-<script>
+<script nonce="<?= htmlspecialchars(cspNonce(), ENT_QUOTES, 'UTF-8') ?>">
 // Chart untuk transaksi harian
 <?php if ($jenis_laporan == 'transaksi'): ?>
 document.addEventListener('DOMContentLoaded', function() {

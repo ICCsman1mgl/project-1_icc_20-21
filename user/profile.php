@@ -116,6 +116,7 @@ $stats = $stmt->fetch();
                         </div>
                         <div class="card-body">
                             <form action="../proses/user_profile_update.php" method="POST" enctype="multipart/form-data">
+                                <?= csrfField() ?>
                                 <input type="hidden" name="id" value="<?= $user['id'] ?>">
                                 
                                 <div class="row">

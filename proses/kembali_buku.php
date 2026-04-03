@@ -3,6 +3,8 @@ require_once '../config/database.php';
 requireAdmin();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    requireCsrf();
+
     $transaksi_id = (int)$_POST['transaksi_id'];
     $tanggal_kembali_aktual = cleanInput($_POST['tanggal_kembali_aktual']);
     $denda = (int)$_POST['denda'];
@@ -93,6 +95,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (isset($pdo) && $pdo->inTransaction()) {
             $pdo->rollBack();
         }
+        appLog('WARNING', 'Gagal memproses pengembalian buku', [
+            'transaksi_id' => $transaksi_id,
+            'error' => $e->getMessage()
+        ]);
         $_SESSION['error'] = $e->getMessage();
         header('Location: ../admin/transaksi/kembali.php');
         exit();

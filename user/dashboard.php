@@ -213,7 +213,7 @@ $riwayatTerakhir = $riwayatTerakhir->fetchAll();
                                             <div class="col-3">
                                                 <?php if ($buku['cover']): ?>
                                                     <img src="/LibraryManagement/proses/uploads/<?= htmlspecialchars($buku['cover']) ?>" 
-                                                         class="book-cover" alt="Cover">
+                                                         class="book-cover" alt="Cover: <?= htmlspecialchars($buku['judul']) ?>" loading="lazy" width="80" height="120">
                                                 <?php else: ?>
                                                     <div class="book-cover bg-light d-flex align-items-center justify-content-center">
                                                         <i class="bi bi-book text-muted"></i>
@@ -286,7 +286,7 @@ $riwayatTerakhir = $riwayatTerakhir->fetchAll();
                                     <div class="text-center pt-3">
                                         <?php if ($buku['cover']): ?>
                                          <img src="/LibraryManagement/proses/uploads/<?= htmlspecialchars($buku['cover']) ?>"
-     class="book-cover-large" alt="Cover">
+     class="book-cover-large" alt="Cover: <?= htmlspecialchars($buku['judul']) ?>" loading="lazy" width="200" height="250">
 
                                         <?php else: ?>
                                             <div class="book-cover-large bg-light d-flex align-items-center justify-content-center mx-auto">
@@ -335,7 +335,7 @@ $riwayatTerakhir = $riwayatTerakhir->fetchAll();
                <div class="card-body text-center">
     <?php if (!empty($_SESSION['foto'])): ?>
       <img src="/LibraryManagement/proses/uploads/<?= htmlspecialchars($_SESSION['foto']) ?>"
-     class="profile-photo-large" alt="Foto Profil">
+     class="profile-photo-large" alt="Foto profil <?= htmlspecialchars($_SESSION['nama_lengkap']) ?>" loading="lazy" width="150" height="150">
 
 
     <?php else: ?>
@@ -405,8 +405,8 @@ $riwayatTerakhir = $riwayatTerakhir->fetchAll();
                         <div class="d-flex align-items-center mb-3">
                             <div class="me-2">
                                 <?php if ($riwayat['cover']): ?>
-                                    <img src="\LibraryManagement\proses\uploads\<?= htmlspecialchars($riwayat['cover']) ?>" 
-                                         class="book-cover" alt="Cover">
+                                    <img src="/LibraryManagement/proses/uploads/<?= htmlspecialchars($riwayat['cover']) ?>" 
+                                         class="book-cover" alt="Cover: <?= htmlspecialchars($riwayat['judul']) ?>" loading="lazy" width="80" height="120">
                                 <?php else: ?>
                                     <div class="book-cover bg-light d-flex align-items-center justify-content-center">
                                         <i class="bi bi-book text-muted"></i>

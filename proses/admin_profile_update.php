@@ -4,6 +4,8 @@ requireLogin();
 requireAdmin();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    requireCsrf();
+
     $id = (int)$_POST['id'];
     $username = cleanInput($_POST['username']);
     $email = cleanInput($_POST['email']);
@@ -138,6 +140,7 @@ exit();
 
         
     } catch (PDOException $e) {
+        appLog('ERROR', 'Gagal memperbarui profil admin', ['user_id' => $id, 'error' => $e->getMessage()]);
         $_SESSION['error'] = 'Gagal memperbarui profil. Silakan coba lagi.';
         header('Location: ../admin/profile.php');
         exit();

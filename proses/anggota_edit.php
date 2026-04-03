@@ -3,6 +3,8 @@ require_once '../config/database.php';
 requireAdmin();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    requireCsrf();
+
     $id = (int)$_POST['id'];
     $username = cleanInput($_POST['username']);
     $email = cleanInput($_POST['email']);
@@ -121,6 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit();
         
     } catch (PDOException $e) {
+        appLog('ERROR', 'Gagal memperbarui anggota', ['user_id' => $id, 'error' => $e->getMessage()]);
         $_SESSION['error'] = 'Gagal memperbarui anggota. Silakan coba lagi.';
         header('Location: ../admin/anggota/edit.php?id=' . $id);
         exit();

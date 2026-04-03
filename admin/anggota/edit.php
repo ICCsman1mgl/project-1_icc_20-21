@@ -104,6 +104,7 @@ include '../../includes/header.php';
                             <?php endif; ?>
 
                             <form action="../../proses/anggota_edit.php" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+                                <?= csrfField() ?>
                                 <input type="hidden" name="id" value="<?= $anggota['id'] ?>">
                                 
                                 <div class="row mb-3">
@@ -277,7 +278,7 @@ include '../../includes/header.php';
     </div>
 </div>
 
-<script>
+<script nonce="<?= htmlspecialchars(cspNonce(), ENT_QUOTES, 'UTF-8') ?>">
 // Preview foto
 document.getElementById('foto').addEventListener('change', function(e) {
     const file = e.target.files[0];

@@ -83,6 +83,7 @@ include '../../includes/header.php';
                             <?php endif; ?>
 
                             <form action="../../proses/anggota_tambah.php" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+                                <?= csrfField() ?>
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <label for="username" class="form-label">Username *</label>
@@ -250,7 +251,7 @@ include '../../includes/header.php';
     </div>
 </div>
 
-<script>
+<script nonce="<?= htmlspecialchars(cspNonce(), ENT_QUOTES, 'UTF-8') ?>">
 // Preview foto
 document.getElementById('foto').addEventListener('change', function(e) {
     const file = e.target.files[0];

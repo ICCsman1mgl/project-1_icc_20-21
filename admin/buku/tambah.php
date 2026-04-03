@@ -87,6 +87,7 @@ $kategoris = $pdo->query("SELECT * FROM kategori ORDER BY nama_kategori")->fetch
                             <?php endif; ?>
 
                             <form action="../../proses/buku_tambah.php" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+                                <?= csrfField() ?>
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <label for="kode_buku" class="form-label">Kode Buku *</label>
@@ -266,7 +267,7 @@ $kategoris = $pdo->query("SELECT * FROM kategori ORDER BY nama_kategori")->fetch
     </div>
 </div>
 
-<script>
+<script nonce="<?= htmlspecialchars(cspNonce(), ENT_QUOTES, 'UTF-8') ?>">
 // Preview cover image
 document.getElementById('cover').addEventListener('change', function(e) {
     const file = e.target.files[0];

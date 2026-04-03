@@ -2,6 +2,8 @@
 require_once '../config/database.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    requireCsrf();
+
     $kode_transaksi = cleanInput($_POST['kode_transaksi']);
     $user_id = (int)$_POST['user_id'];
     $buku_id = (int)$_POST['buku_id'];
@@ -118,8 +120,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ]);
         
         // Update jumlah tersedia buku
-        $stmt = $pdo->prepare("UPDATE buku SET jumlah_tersedia = jumlah_tersedia - 1 WHERE id = ?");
+        $stmt = $pdo->prepare("UPDATE buku SET jumlah_tersedia = jumlah_tersedia - 1 WHERE id = ? AND jumlah_tersedia > 0");
         $stmt->execute([$buku_id]);
+        if ($stmt->rowCount() === 0) {
+            throw new Exception('Stok buku berubah. Silakan muat ulang halaman dan coba lagi.');
+        }
         
         $pdo->commit();
         
@@ -137,6 +142,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (isset($pdo) && $pdo->inTransaction()) {
             $pdo->rollBack();
         }
+        appLog('WARNING', 'Gagal memproses peminjaman buku', [
+            'user_id' => $user_id,
+            'buku_id' => $buku_id,
+            'error' => $e->getMessage()
+        ]);
         $_SESSION['error'] = $e->getMessage();
         
         if ($redirect === 'user') {

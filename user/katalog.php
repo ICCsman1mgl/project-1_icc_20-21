@@ -214,7 +214,7 @@ $jumlahDipinjamUser = count($bukuDipinjamUser);
                         <div class="text-center pt-3">
                             <?php if ($buku['cover']): ?>
                               <img src="/LibraryManagement/proses/uploads/<?= htmlspecialchars($buku['cover']) ?>"
-     class="book-cover-large" alt="Cover" style="cursor: pointer;">
+     class="book-cover-large" alt="Cover: <?= htmlspecialchars($buku['judul']) ?>" loading="lazy" width="200" height="250" style="cursor: pointer;">
 
                                    
                             <?php else: ?>
@@ -306,7 +306,7 @@ $jumlahDipinjamUser = count($bukuDipinjamUser);
                                     <div class="col-md-4 text-center">
                                         <?php if ($buku['cover']): ?>
                                             <img src="/LibraryManagement/proses/uploads/<?= htmlspecialchars($buku['cover']) ?>" 
-                                                 class="book-cover-large mb-3" alt="Cover">
+                                                 class="book-cover-large mb-3" alt="Cover: <?= htmlspecialchars($buku['judul']) ?>" loading="lazy" width="200" height="250">
                                         <?php else: ?>
                                             <div class="book-cover-large bg-light d-flex align-items-center justify-content-center mb-3 mx-auto">
                                                 <i class="bi bi-book text-muted" style="font-size: 4rem;"></i>

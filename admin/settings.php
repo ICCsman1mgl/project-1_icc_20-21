@@ -9,16 +9,21 @@ $pdo = getConnection();
 
 if (isset($_GET['action'])) {
     $action = $_GET['action'];
+    $token = isset($_GET['token']) ? (string)$_GET['token'] : null;
 
     switch ($action) {
         case 'backup':
-            $backupFile = __DIR__ . '/../backup/backup_' . date('Y-m-d-H-i-s') . '.sql';
-            $command = "mysqldump -h localhost -u root perpustakaan > $backupFile";
-            system($command);
-            header("Location: settings.php?status=backup_done");
+            $_SESSION['warning'] = 'Backup dari aplikasi dinonaktifkan untuk keamanan. Gunakan backup terkelola dari infrastruktur (snapshot/PITR) atau jalankan backup terjadwal di server.';
+            appLog('INFO', 'Percobaan menjalankan backup dari UI diblokir', ['user_id' => $_SESSION['user_id'] ?? null]);
+            header("Location: settings.php?status=backup_blocked");
             exit;
 
         case 'export':
+            if (!validateActionToken('export', $token)) {
+                $_SESSION['error'] = 'Permintaan tidak valid. Silakan muat ulang halaman dan coba lagi.';
+                header("Location: settings.php");
+                exit;
+            }
             $transactions = $pdo->query("
                 SELECT kode_transaksi, user_id, buku_id, status, 
                        tanggal_pinjam, tanggal_kembali_rencana, tanggal_kembali_aktual, denda 
@@ -48,6 +53,11 @@ if (isset($_GET['action'])) {
             exit;
 
         case 'clear_cache':
+            if (!validateActionToken('clear_cache', $token)) {
+                $_SESSION['error'] = 'Permintaan tidak valid. Silakan muat ulang halaman dan coba lagi.';
+                header("Location: settings.php");
+                exit;
+            }
             $cacheDir = __DIR__ . '/../cache/';
             if (is_dir($cacheDir)) {
                 foreach (glob($cacheDir . "*") as $cacheFile) {
@@ -60,6 +70,11 @@ if (isset($_GET['action'])) {
             exit;
 
         case 'maintenance':
+            if (!validateActionToken('maintenance', $token)) {
+                $_SESSION['error'] = 'Permintaan tidak valid. Silakan muat ulang halaman dan coba lagi.';
+                header("Location: settings.php");
+                exit;
+            }
             file_put_contents(__DIR__ . '/maintenance.txt', '1');
             header("Location: settings.php?status=maintenance_on");
             exit;
@@ -308,7 +323,7 @@ $systemStats = $stmt->fetch();
     </div>
 </div>
 
-<script>
+<script nonce="<?= htmlspecialchars(cspNonce(), ENT_QUOTES, 'UTF-8') ?>">
 function backupDatabase() {
     if (confirm("Anda yakin ingin melakukan backup database?")) {
         window.location.href = "settings.php?action=backup";
@@ -316,17 +331,17 @@ function backupDatabase() {
 }
 function exportData() {
     if (confirm("Anda yakin ingin export data?")) {
-        window.location.href = "settings.php?action=export";
+        window.location.href = "settings.php?action=export&token=<?= htmlspecialchars(actionToken('export'), ENT_QUOTES, 'UTF-8') ?>";
     }
 }
 function clearCache() {
     if (confirm("Anda yakin ingin menghapus cache?")) {
-        window.location.href = "settings.php?action=clear_cache";
+        window.location.href = "settings.php?action=clear_cache&token=<?= htmlspecialchars(actionToken('clear_cache'), ENT_QUOTES, 'UTF-8') ?>";
     }
 }
 function showMaintenanceMode() {
     if (confirm("Anda yakin ingin masuk ke mode maintenance?")) {
-        window.location.href = "settings.php?action=maintenance";
+        window.location.href = "settings.php?action=maintenance&token=<?= htmlspecialchars(actionToken('maintenance'), ENT_QUOTES, 'UTF-8') ?>";
     }
 }
 </script>

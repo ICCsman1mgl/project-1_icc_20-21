@@ -145,7 +145,7 @@ $bukuTersedia = $pdo->query("SELECT id, kode_buku, judul, pengarang FROM buku WH
                         </div>
                     <?php else: ?>
                         <form action="../proses/pinjam_buku.php" method="POST" class="needs-validation" novalidate>
-
+                            <?= csrfField() ?>
                             <input type="hidden" name="user_id" value="<?= $userId ?>">
                             <input type="hidden" name="redirect" value="user">
 
@@ -391,7 +391,7 @@ $bukuTersedia = $pdo->query("SELECT id, kode_buku, judul, pengarang FROM buku WH
     </div>
 </div>
 
-<script>
+<script nonce="<?= htmlspecialchars(cspNonce(), ENT_QUOTES, 'UTF-8') ?>">
     // Lookup anggota berdasarkan NIS
     document.getElementById('nis_input').addEventListener('change', function() {
         let nis = this.value;

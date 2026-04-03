@@ -99,7 +99,7 @@ requireAdmin();
         </div>
     </div>
 
-    <script>
+    <script nonce="<?= htmlspecialchars(cspNonce(), ENT_QUOTES, 'UTF-8') ?>">
         const msg = document.getElementById('msg');
         const nisEl = document.getElementById('nis');
         const namaEl = document.getElementById('nama');

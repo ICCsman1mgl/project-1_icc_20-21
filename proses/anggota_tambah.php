@@ -3,6 +3,8 @@ require_once '../config/database.php';
 requireAdmin();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    requireCsrf();
+
     $username = cleanInput($_POST['username']);
     $email = cleanInput($_POST['email']);
     $nama_lengkap = cleanInput($_POST['nama_lengkap']);
@@ -97,6 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
         }
 
+        appLog('ERROR', 'Gagal menambah anggota', ['username' => $username, 'error' => $e->getMessage()]);
         $_SESSION['error'] = 'Gagal menambah anggota. Silakan coba lagi.';
         header('Location: ../admin/anggota/tambah.php');
         exit();

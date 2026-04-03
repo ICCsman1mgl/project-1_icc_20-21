@@ -413,7 +413,7 @@ $bukuPopuler = $pdo->query("
     </div>
 </div>
 
-<script>
+<script nonce="<?= htmlspecialchars(cspNonce(), ENT_QUOTES, 'UTF-8') ?>">
     // Chart configuration
     document.addEventListener('DOMContentLoaded', function() {
         const ctx = document.getElementById('transactionChart').getContext('2d');

@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+Disallow: /admin/
+Disallow: /user/
+Disallow: /proses/
+Disallow: /backup/
+
+Sitemap: /sitemap.php

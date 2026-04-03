@@ -96,6 +96,7 @@ $bukuList = $pdo->query("SELECT id, kode_buku, judul, pengarang, cover, jumlah_t
                         </div>
                         <div class="card-body">
                             <form action="../../proses/pinjam_buku.php" method="POST" class="needs-validation" novalidate>
+                                <?= csrfField() ?>
                                 <input type="hidden" name="anggota_id" id="anggota_id">
                                 <div class="row mb-3">
                                     <div class="col-md-6">
@@ -256,7 +257,7 @@ $bukuList = $pdo->query("SELECT id, kode_buku, judul, pengarang, cover, jumlah_t
     </div>
 </div>
 
-<script>
+<script nonce="<?= htmlspecialchars(cspNonce(), ENT_QUOTES, 'UTF-8') ?>">
     document.getElementById('nis_input').addEventListener('change', function() {
 
         const nis = this.value;

@@ -3,6 +3,8 @@ require_once '../config/database.php';
 requireAdmin();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    requireCsrf();
+
     $kode_buku = cleanInput($_POST['kode_buku']);
     $judul = cleanInput($_POST['judul']);
     $pengarang = cleanInput($_POST['pengarang']);
@@ -72,6 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
         }
 
+        appLog('ERROR', 'Gagal menambah buku', ['kode_buku' => $kode_buku, 'error' => $e->getMessage()]);
         $_SESSION['error'] = 'Gagal menambah buku. Silakan coba lagi.';
         header('Location: ../admin/buku/tambah.php');
         exit();

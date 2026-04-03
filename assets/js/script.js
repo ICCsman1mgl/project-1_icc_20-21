@@ -13,6 +13,7 @@ function initializeComponents() {
     initializeSearchFeatures();
     initializeFileUpload();
     initializeDatePicker();
+    initializePasswordToggle();
 }
 
 // Inisialisasi Bootstrap tooltips
@@ -205,6 +206,31 @@ function initializeDatePicker() {
         if (input.classList.contains('future-date')) {
             const today = new Date().toISOString().split('T')[0];
             input.min = today;
+        }
+    });
+}
+
+function initializePasswordToggle() {
+    const toggleButton = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('password');
+    if (!toggleButton || !passwordInput) {
+        return;
+    }
+
+    toggleButton.addEventListener('click', function() {
+        const icon = this.querySelector('i');
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            if (icon) {
+                icon.classList.remove('bi-eye');
+                icon.classList.add('bi-eye-slash');
+            }
+        } else {
+            passwordInput.type = 'password';
+            if (icon) {
+                icon.classList.remove('bi-eye-slash');
+                icon.classList.add('bi-eye');
+            }
         }
     });
 }

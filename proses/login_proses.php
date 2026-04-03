@@ -2,6 +2,15 @@
 require_once '../config/database.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    requireCsrf();
+
+    if (isRateLimited('login')) {
+        $cooldown = remainingRateLimitCooldown('login');
+        $_SESSION['error'] = 'Terlalu banyak percobaan login. Silakan coba lagi dalam ' . $cooldown . ' detik.';
+        header('Location: ../login.php');
+        exit();
+    }
+
     $username = cleanInput($_POST['username']);
     $password = $_POST['password'];
     
@@ -27,6 +36,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['role'] = $user['role'];
             $_SESSION['nama_lengkap'] = $user['nama_lengkap'];
             $_SESSION['foto'] = $user['foto'];
+
+            clearRateLimit('login');
             
             // Update last login
             $updateStmt = $pdo->prepare("UPDATE users SET updated_at = NOW() WHERE id = ?");
@@ -40,12 +51,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
             exit();
         } else {
+            registerRateLimitFailure('login', 900, 5);
+            appLog('WARNING', 'Login gagal', ['username' => $username, 'ip' => $_SERVER['REMOTE_ADDR'] ?? '']);
             $_SESSION['error'] = 'Username/email atau password salah!';
             header('Location: ../login.php');
             exit();
         }
         
     } catch (PDOException $e) {
+        appLog('ERROR', 'Error pada proses login', ['error' => $e->getMessage()]);
         $_SESSION['error'] = 'Terjadi kesalahan sistem. Silakan coba lagi.';
         header('Location: ../login.php');
         exit();

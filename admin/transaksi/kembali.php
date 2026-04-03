@@ -111,6 +111,7 @@ $transaksiAktif = $pdo->query("SELECT t.*, u.nama_lengkap, b.judul, b.pengarang,
                         </div>
                         <div class="card-body">
                             <form action="../../proses/kembali_buku.php" method="POST" class="needs-validation" novalidate>
+                                <?= csrfField() ?>
                                 <div class="mb-3">
                                     <label for="transaksi_id" class="form-label">Pilih Transaksi *</label>
                                     <select class="form-select" id="transaksi_id" name="transaksi_id" required>
@@ -312,7 +313,7 @@ $transaksiAktif = $pdo->query("SELECT t.*, u.nama_lengkap, b.judul, b.pengarang,
     </div>
 </div>
 
-<script>
+<script nonce="<?= htmlspecialchars(cspNonce(), ENT_QUOTES, 'UTF-8') ?>">
 // Function untuk menampilkan detail transaksi
 function tampilkanDetailTransaksi(option) {
     const detailDiv = document.getElementById('detail-transaksi');

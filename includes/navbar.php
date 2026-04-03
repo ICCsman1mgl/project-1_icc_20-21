@@ -53,7 +53,7 @@ try {
             Perpustakaan Digital
         </a>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Buka navigasi utama">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -159,7 +159,7 @@ try {
                 <?php endif; ?>
 
                 <li class="nav-item dropdown me-3">
-                    <a class="nav-link position-relative" href="#" role="button" data-bs-toggle="dropdown">
+                    <a class="nav-link position-relative" href="#" role="button" data-bs-toggle="dropdown" aria-label="Buka notifikasi pengembalian">
                         <i class="bi bi-bell"></i>
                         <?php if ($notifCount > 0): ?>
                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -191,7 +191,7 @@ try {
                     <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
                         <?php if (!empty($_SESSION['foto'])): ?>
                             <img src="<?= $baseUrl ?>/proses/uploads/<?= htmlspecialchars($_SESSION['foto']) ?>"
-                                alt="Profile" class="rounded-circle me-2" style="width: 32px; height: 32px; object-fit: cover;">
+                                alt="Foto profil <?= htmlspecialchars($_SESSION['nama_lengkap']) ?>" class="rounded-circle me-2" style="width: 32px; height: 32px; object-fit: cover;" width="32" height="32">
                         <?php else: ?>
                             <i class="bi bi-person-circle me-2" style="font-size: 1.5rem;"></i>
                         <?php endif; ?>

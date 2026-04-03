@@ -99,23 +99,33 @@ Contoh via phpMyAdmin:
 
 ## Konfigurasi
 
-Edit file `config/database.php`:
+Konfigurasi disarankan menggunakan environment variables (agar kredensial tidak hardcoded):
 
-```php
-define('DB_HOST', 'localhost');
-define('DB_USERNAME', 'root');
-define('DB_PASSWORD', '');
-define('DB_NAME', 'perpustakaan');
+- `APP_ENV` (default: `production`)
+- `APP_DEBUG` (default: `0`)
+- `BASE_URL` (default: `/LibraryManagement`)
+- `DB_HOST` (default: `localhost`)
+- `DB_USERNAME` (default: `root`)
+- `DB_PASSWORD` (default: kosong)
+- `DB_NAME` (default: `perpustakaan`)
+- `APP_LOG_PATH` (default: `storage/logs/app.log`)
+- `ENABLE_HTTPS_REDIRECT` (default: `0`) — aktifkan `1` di production jika sudah HTTPS
+- `CSRF_TOKEN_TTL` (default: `7200`) — masa berlaku token CSRF (detik)
 
-// Jika project tidak berada di /LibraryManagement, ubah BASE_URL
-define('BASE_URL', '/LibraryManagement');
-```
+Catatan keamanan deployment:
+
+- Wajib gunakan user database non-root dan password kuat.
+- Pastikan aplikasi berjalan di HTTPS (aktifkan redirect setelah TLS siap).
 
 Pastikan folder upload dapat ditulis oleh server:
 
 - `proses/uploads/`
   - `proses/uploads/covers/`
   - `proses/uploads/profiles/`
+
+Pastikan folder log dapat dibuat/ditulis:
+
+- `storage/logs/`
 
 ## Penggunaan
 
@@ -189,6 +199,18 @@ Contoh (ganti path sesuai file Anda):
 ```
 
 ## Testing
+
+Jalankan unit test:
+
+```bash
+php tests.php
+```
+
+Jalankan integration test (HTTP + cek header keamanan):
+
+```bash
+php tests/http_integration.php
+```
 
 Project ini belum menggunakan framework testing resmi (mis. PHPUnit). Saat ini tersedia smoke test sederhana:
 
