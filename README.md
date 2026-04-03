@@ -229,3 +229,23 @@ Jika project akan dipublikasikan sebagai open-source, tambahkan file `LICENSE` (
 - Email: (isi email)
 - Issue tracker: gunakan tab **Issues** di GitHub untuk bug report dan feature request
 
+## Diagram Alur (Login dan Role)
+
+```mermaid
+flowchart TB
+START([Start])
+LP([Landing Page / Login])
+click LP href "/LibraryManagement/index.php" "Buka Landing Page / Login"
+CREDS{Kredensial valid?}
+ROLE{Role admin?}
+ERR_LOGIN([Tampilkan error login])
+START --> LP --> CREDS
+CREDS -- Tidak --> ERR_LOGIN --> LP
+CREDS -- Ya --> ROLE
+AD([Dashboard Admin])
+click AD href "/LibraryManagement/admin/dashboard.php" "Buka Dashboard Admin"
+UD([Dashboard User])
+click UD href "/LibraryManagement/user/dashboard.php" "Buka Dashboard User"
+ROLE -- Admin --> AD
+ROLE -- User --> UD
+```
