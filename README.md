@@ -217,12 +217,6 @@ Pedoman teknis:
 - Jangan menampilkan detail error database ke user (hindari leak info sensitif).
 - Ikuti pola `requireLogin()` / `requireAdmin()` pada halaman yang butuh proteksi.
 
-## Lisensi
-
-Belum ada lisensi yang ditetapkan pada repository ini.
-
-Jika project akan dipublikasikan sebagai open-source, tambahkan file `LICENSE` (mis. MIT) dan sesuaikan bagian ini.
-
 ## Kontak
 
 - Maintainer: (isi nama/tim)
